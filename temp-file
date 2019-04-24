@@ -1,0 +1,24 @@
+<div className={classes.root}>
+                            <GridList cellHeight={200} spacing={1} className={classes.gridList}>
+                                {agendaList.map((item, index) => (
+                                    <GridListTile key={index}>
+                                        <Paper
+                                            className={classes.paper}
+                                            style={{background: item.status === true ? 'green' : 'red'}}
+                                        >
+                                            <Typography variant="title" gutterBottom>
+                                                {item.title}
+                                            </Typography>
+
+                                            <Typography variant="subtitle2" gutterBottom>
+                                                {item.client}
+                                            </Typography>
+
+                                            <Typography variant="subtitle" gutterBottom>
+                                                Due: {item.date.toDateString()}
+                                            </Typography>
+                                        </Paper>
+                                    </GridListTile>
+                                ))}
+                            </GridList>
+                        </div>
