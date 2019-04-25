@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
@@ -8,6 +9,11 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
+
+const calendarsLink = props => <Link to="/calendars" {...props} />
+const clientsLink = props => <Link to="/clients" {...props} />
+const duedateLink = props => <Link to="/duedates" {...props} />
+const homeLink = props => <Link to="/" {...props} />
 
 const styles = {
     root: {
@@ -42,13 +48,13 @@ class Navbar extends Component {
                             Tax Due Date Database
                         </Typography>
                         
-                        <Button size="large" color="inherit">Home</Button>
-                        <Button size="large" color="inherit">Clients</Button>
-                        <Button size="large" color="inherit">Calendars</Button>
+                        <Button size="large" color="inherit" component={homeLink}>Home</Button>
+                        <Button size="large" color="inherit" component={clientsLink}>Clients</Button>
+                        <Button size="large" color="inherit" component={duedateLink}>Due Dates</Button>
+                        <Button size="large" color="inherit" component={calendarsLink}>Calendars</Button>
                         <Button size="large" color="inherit">Teams</Button>
                         <Button size="large" color="inherit">Jobs</Button>
                         <Button size="large" color="inherit">Tasks</Button>
-                        <Button size="large" color="inherit">Due Dates</Button>
 
                         <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                             <MenuIcon />

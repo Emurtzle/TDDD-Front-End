@@ -1,8 +1,12 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import './App.css';
 
 import Navbar from './components/Navbar'
-import CalendarPage from './components/CalendarPage';
+import HomePage from './components/homePage/HomePage';
+import ClientsPage from './components/clientsPage/ClientsPage'
+import DueDatesPage from './components/duedatesPage/DueDatesPage'
+import CalendarsPage from './components/calendarsPage/CalendarsPage'
 
 function App() {
   const user = {
@@ -10,10 +14,15 @@ function App() {
     userName: "Emurtzle"
   }
   return (
-    <div>
-      <Navbar />
-      <CalendarPage user={user}/>
-    </div>
+    <Router>
+      <div>
+        <Route path="/" render={ () => <Navbar user={user} /> } />
+        <Route path="/calendars" exact render={ () => <CalendarsPage user={user} /> } />
+        <Route path="/duedates" exact render={ () => <DueDatesPage user={user} /> } />
+        <Route path="/clients" exact render={ () => <ClientsPage user={user} /> } />
+        <Route path="/" exact render={ () => <HomePage user={user}/> } />
+      </div>
+    </Router>
   )
 }
 

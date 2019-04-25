@@ -27,18 +27,15 @@ class AgendaList extends Component{
         this.state = {
             formType: "",
             client: "",
-            dateBox: false,
-            alphaBox: false
+            critBox: false
         }
     }
 
     handleCheckChange = (ev) => {
-
         this.setState({ [ev.target.value]: !this.state[ev.target.value] })
     }
 
     handleChange = (ev) => {
-
         this.setState({ [ev.target.name]: ev.target.value })
     }
 
@@ -58,7 +55,7 @@ class AgendaList extends Component{
                     <FormControl>
                         <InputLabel>Form Type</InputLabel>
                         <Select 
-                            value={this.state.type}
+                            value={this.state.formType}
                             onChange={this.handleChange}
                             inputProps={{name: 'formType', id: 'formType'}}
                         >
@@ -68,13 +65,13 @@ class AgendaList extends Component{
                             <MenuItem value="w2">W2</MenuItem>
                             <MenuItem value="1040">1040</MenuItem>
                         </Select> 
-                        <FormHelperText>Type of Form</FormHelperText>
+                        <FormHelperText>Pick the type of form</FormHelperText>
                     </FormControl>
 
                     <FormControl>
                         <InputLabel>Client</InputLabel>
                         <Select 
-                            value={this.state.type}
+                            value={this.state.client}
                             onChange={this.handleChange}
                             inputProps={{name: 'client', id: 'client'}}
                         >
@@ -85,29 +82,18 @@ class AgendaList extends Component{
                             <MenuItem value="granny-smith">Granny Smith</MenuItem>
                             <MenuItem value="jane-doe">Jane Doe</MenuItem>
                         </Select> 
-                        <FormHelperText>Client</FormHelperText>
+                        <FormHelperText>Pick the type of form</FormHelperText>
                     </FormControl>
-
-                    <FormControlLabel 
-                        control={
-                            <Checkbox 
-                                checked={this.state.dateBox}
-                                onChange={this.handleCheckChange}
-                                value="dateBox"
-                            />
-                        }
-                        label="Date"
-                    />
 
                     <FormControlLabel 
                         control={
                             <Checkbox 
                                 checked={this.state.alphaBox}
                                 onChange={this.handleCheckChange}
-                                value="alphaBox"
+                                value="critBox"
                             />
                         }
-                        label="Alpabetical"
+                        label="Critical"
                     />
 
                 </FormGroup>
@@ -118,6 +104,10 @@ class AgendaList extends Component{
             </Fragment>
         )
     }
+}
+
+AgendaList.propTypes = {
+    
 }
 
 export default withStyles(styles)(AgendaList)
