@@ -66,6 +66,7 @@ class ClientsTable extends Component {
 
     changeSelection = selection => {
         this.setState({ selection })
+        this.props.setSelection(selection)
 
         if (selection.length === 0) {
             this.props.closeClientControls()
