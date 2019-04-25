@@ -16,7 +16,7 @@ function App() {
   return (
     <Router>
       <div>
-        <Route path="/" render={ () => <Navbar user={user} /> } />
+        <Route path="/"render={ () => <Navbar user={user} /> } />
         <Route path="/calendars" exact render={ () => <CalendarsPage user={user} /> } />
         <Route path="/duedates" exact render={ () => <DueDatesPage user={user} /> } />
         <Route path="/clients" exact render={ () => <ClientsPage user={user} /> } />

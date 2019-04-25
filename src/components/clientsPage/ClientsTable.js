@@ -60,11 +60,18 @@ class ClientsTable extends Component {
             ],
             rows: sampleData,
             selection: [],
-            selectedClient: sampleData[1],
-            clientControlsOpen: false
+            selectedClient: sampleData[1]
         }
+    }
 
-        this.changeSelection = selection => this.setState({ selection })
+    changeSelection = selection => {
+        this.setState({ selection })
+
+        if (selection.length === 0) {
+            this.props.closeClientControls()
+        } else {
+            this.props.openClientControls()
+        }
     }
 
     tableRow = ({ row, ...restProps }) => {
@@ -104,6 +111,7 @@ class ClientsTable extends Component {
 
     render() {
         const { rows, columns, selection } = this.state
+
         return (
             <Paper>
                 <Grid rows={rows} columns={columns}>
