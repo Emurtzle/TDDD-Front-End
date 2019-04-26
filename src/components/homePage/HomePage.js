@@ -5,7 +5,7 @@ import Calendar from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import moment from 'moment'
 
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/core'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
