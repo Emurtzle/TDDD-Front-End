@@ -15,13 +15,25 @@ import CalendarsPage from './components/calendarsPage/CalendarsPage'
 
 
 const PrivateRoute = (loggedIn, path, render) => {
-    return (
-      <Route 
-        path={ path }
+    if (loggedIn) {
+      return (
+        <Route 
+          path={ path }
+          exact
+          render={ render }
+        />
+      )
+    } else {
+      return (
+        <Route
+        path={path}
         exact
-        render={ render }
+        render={ 
+          () => <Redirect to="/login" />
+        }
       />
-    )
+      )
+    }
 }
 
 const styles = theme => ({
@@ -33,18 +45,27 @@ class App extends Component {
     super(props)
 
     this.state = {
-      user: "tom",
-      loggedIn: true,
+      user: 'null',
+      loggedIn: false,
       clientList: []
     }
   }
 
   componentDidMount() {
-    this.fetchClientList()
+    // this.checkLogin()
+    // this.fetchClientList()
+  }
+
+  checkLogin = () => {
+    if (!localStorage.getItem('jwt')) {
+      this.setState({loggedIn: false})
+    } else {
+      this.setState({loggedIn: true})
+    }
   }
 
   fetchClientList = () => {
-    
+    console.log('Attempting to Fetch Clients List')
   }
 
   setLogIn = (user) => {
@@ -68,15 +89,17 @@ class App extends Component {
     return(
       <Router>
         <div>
-          <Route path="/"render={ () => <Navbar user={user} setLogOut={this.setLogOut} /> } />
+          <Route path="/"render={ () => <Navbar loggedIn={loggedIn} user={user} setLogOut={this.setLogOut} /> } />
 
-          <Route exact path="/login" render={ () => <LoginPage user={user} setLogIn={this.setLogIn} /> } />
+          {!loggedIn && (
+            <Route exact path="/login" render={ () => <LoginPage user={user} setLogIn={this.setLogIn} /> } />
+          )}
 
 
-          {PrivateRoute(false, "/", () => <HomePage user={{user}} />)}
-          {PrivateRoute(false, "/clients", () => <ClientsPage user={{user}} clientList={clientList} />)}
-          {PrivateRoute(false, "/duedates", () => <DueDatesPage user={{user}} />)}
-          {PrivateRoute(false, "/calendars", () => <CalendarsPage user={{user}} />)}
+          {PrivateRoute(loggedIn, "/", () => <HomePage user={{user}} />)}
+          {PrivateRoute(loggedIn, "/clients", () => <ClientsPage user={{user}} clientList={clientList} />)}
+          {PrivateRoute(loggedIn, "/duedates", () => <DueDatesPage user={{user}} />)}
+          {PrivateRoute(loggedIn, "/calendars", () => <CalendarsPage user={{user}} />)}
           
         </div>
       </Router>

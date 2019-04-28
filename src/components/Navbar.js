@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
@@ -16,6 +16,7 @@ import Avatar from '@material-ui/core/Avatar'
 const calendarsLink = props => <Link to="/calendars" {...props} />
 const clientsLink = props => <Link to="/clients" {...props} />
 const duedateLink = props => <Link to="/duedates" {...props} />
+const loginLink = props => <Link to="/login" {...props} />
 const homeLink = props => <Link to="/" {...props} />
 
 const styles = {
@@ -65,7 +66,7 @@ class Navbar extends Component {
 
     render() {
         const { anchorEl } = this.state
-        const { classes, setLogOut } = this.props
+        const { classes, setLogOut, user, loggedIn } = this.props
 
         return (
             <div className={classes.root}>
@@ -75,34 +76,37 @@ class Navbar extends Component {
                             Tax Due Date Database
                         </Typography>
                         
-                        <Button size="large" color="inherit" component={homeLink}>Home</Button>
-                        <Button size="large" color="inherit" component={clientsLink}>Clients</Button>
-                        <Button size="large" color="inherit" component={duedateLink}>Due Dates</Button>
-                        <Button size="large" color="inherit" component={calendarsLink}>Calendars</Button>
-                        <Button size="large" color="inherit">Teams</Button>
-                        <Button size="large" color="inherit">Jobs</Button>
-                        <Button size="large" color="inherit">Tasks</Button>
-
-                        <IconButton
-                            className={classes.menuButton}
-                            color="inherit"
-                            aria-label="Menu"
-                            onClick={this.openMenu}
-                        >
-                            <AccountIcon fontSize="large"/>
-                        </IconButton>
-                        <Menu
-                            id="account-menu"
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={this.closeMenu}
-                        >
-                            <MenuItem onClick={this.accountButton}>My Account</MenuItem>
-                            <MenuItem onClick={this.settingsButton}>Settings</MenuItem>
-                            <MenuItem onClick={this.logoutButton}>Logout</MenuItem>
-                        </Menu>
-
-
+                        {loggedIn && (
+                            <Fragment>
+                                <Button size="large" color="inherit" component={homeLink}>Home</Button>
+                                <Button size="large" color="inherit" component={clientsLink}>Clients</Button>
+                                <Button size="large" color="inherit" component={duedateLink}>Due Dates</Button>
+                                <Button size="large" color="inherit" component={calendarsLink}>Calendars</Button>
+                                <Button size="large" color="inherit">Teams</Button>
+                                <Button size="large" color="inherit">Jobs</Button>
+                                <Button size="large" color="inherit">Tasks</Button>
+                            
+                                <IconButton
+                                    className={classes.menuButton}
+                                    color="inherit"
+                                    aria-label="Menu"
+                                    onClick={this.openMenu}
+                                >
+                                    <AccountIcon fontSize="large"/>
+                                </IconButton>
+                                <Menu
+                                    id="account-menu"
+                                    anchorEl={anchorEl}
+                                    open={Boolean(anchorEl)}
+                                    onClose={this.closeMenu}
+                                >
+                                    <MenuItem onClick={this.accountButton}>My Account</MenuItem>
+                                    <MenuItem onClick={this.settingsButton}>Settings</MenuItem>
+                                    <MenuItem onClick={this.logoutButton}>Logout</MenuItem>
+                                </Menu>
+                            
+                            </Fragment>
+                        )}
                     </Toolbar>
                 </AppBar>
             </div>

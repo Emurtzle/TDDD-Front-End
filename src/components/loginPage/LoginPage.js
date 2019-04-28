@@ -82,8 +82,10 @@ class LoginPage extends Component {
         })
         .then(response => response.json())
         .then(json => {
+            localStorage.setItem('Token', json.jwt)
+            localStorage.setItem('User', json.user)
+            this.props.setLogIn(json.user)
             console.log("Success!", json)
-            // localStorage.setItem('UserID', json.user.id)
         })
     }
 

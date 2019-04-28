@@ -1,24 +1,91 @@
-<div className={classes.root}>
-                            <GridList cellHeight={200} spacing={1} className={classes.gridList}>
-                                {agendaList.map((item, index) => (
-                                    <GridListTile key={index}>
-                                        <Paper
-                                            className={classes.paper}
-                                            style={{background: item.status === true ? 'green' : 'red'}}
+const sidebarTransDuration = 500
+const clientInfoTransDuration = 250
+const clientsControlTransDuration = 250
+
+const sidebarTranStyle = {
+    transition: `opacity ${sidebarTransDuration}ms ease-in-out`,
+    opacity: 0
+}
+
+const clientInfoTranStyle = {
+    transition: `opacity ${clientInfoTransDuration}ms ease-in-out`,
+    opacity: 0
+}
+
+const clientsControlTranStyle = {
+    transition: `opacity ${clientsControlTransDuration}ms ease-in-out`,
+    opacity: 0
+}
+
+
+const fadeTransitionStyles = {
+    entering: { opacity: 1 },
+    entered:  { opacity: 1 },
+    exiting:  { opacity: 0 },
+    exited:  { opacity: 0 }
+}
+
+
+                    <Transition 
+                        in={sidebarOpen}
+                        timeout={sidebarTransDuration}
+                    >
+                        {state => (
+
+                            <Grid
+                                item xs={4}
+                                className={classes.gridContainer}
+                                style={{
+                                    ...sidebarTranStyle,
+                                    ...fadeTransitionStyles[state]
+                                }}
+                            >
+                                <Paper className={classes.paper} elevation={1}>
+                                    <Grid container direction="column" spacing={24}>
+
+                                        <Transition
+                                            in={clientInfoOpen}
+                                            timeout={clientInfoTransDuration}
+                                            mountOnEnter
+                                            unmountOnExit
                                         >
-                                            <Typography variant="title" gutterBottom>
-                                                {item.title}
-                                            </Typography>
+                                            {state => (
+                                                <div style={{
+                                                    ...sidebarTranStyle,
+                                                    ...fadeTransitionStyles[state]
+                                                }}>
+                                                    <ClientsPageInfo 
+                                                        currentClient={currentClient}
+                                                        clearCurrentClient={this.clearCurrentClient}
+                                                        openIndivClientPage={this.openIndivClientPage}
+                                                    />
+                                                </div>
+                                            )}
+                                            
+                                        </Transition>
 
-                                            <Typography variant="subtitle2" gutterBottom>
-                                                {item.client}
-                                            </Typography>
+                                        <Transition
+                                            in={controlsOpen}
+                                            timeout={clientsControlTransDuration}
+                                            mountOnEnter
+                                            unmountOnExit
+                                        >
+                                            {state => (
+                                                <div style={{
+                                                    ...sidebarTranStyle,
+                                                    ...fadeTransitionStyles[state]
+                                                }}>
+                                                    <ClientsPageControls 
+                                                        selection={selection}
+                                                    />
+                                                </div>
+                                            )}
+                                            
+                                        </Transition>
+                                        
+                                    </Grid>
+                                </Paper>
+                            </Grid>
 
-                                            <Typography variant="subtitle" gutterBottom>
-                                                Due: {item.date.toDateString()}
-                                            </Typography>
-                                        </Paper>
-                                    </GridListTile>
-                                ))}
-                            </GridList>
-                        </div>
+                        )}
+                    </Transition>

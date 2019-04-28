@@ -4,18 +4,23 @@ import PropTypes from 'prop-types'
 import ClientsPageTable from './ClientsPageTable'
 import ClientsPageInfo from './ClientsPageInfo'
 import ClientsPageControls from './ClientsPageControls'
-import indivClientPage from './IndivClientPage'
+import IndivClientPage from './IndivClientPage'
 
 import moment from 'moment'
+import uuid from 'uuid'
 
-import { withStyles } from '@material-ui/core';
+import { Transition } from 'react-transition-group'
+
+
+import { withStyles } from '@material-ui/core'
 
 import Modal from '@material-ui/core/Modal'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
-import IndivClientPage from './IndivClientPage';
+import Slide from '@material-ui/core/Slide'
+import Grow from '@material-ui/core/Grow'
 
 const styles = theme => ({
     paper: {
@@ -79,11 +84,6 @@ class ClientsPage extends Component {
         this.setState({controlsOpen: false})
    }
 
-   testFunc = () => {
-       console.log("Test Successful!")
-   }
-
-
     render() {
         const { classes, clientList } = this.props
         const { currentClient, clientInfoOpen, controlsOpen, selection, indivClientPageOpen } = this.state
@@ -106,7 +106,7 @@ class ClientsPage extends Component {
                 </Modal>
 
                 <Grid container spacing={24} className={classes.gridContainer}>
-                    <Grid item xs={sidebarOpen ? 8 : 12}>
+                    <Grid item xs={currentClient ? 8 : 12}>
                         <Paper className={classes.paper} elevation={1}>
                             <ClientsPageTable 
                                 setCurrentClient={this.setCurrentClient}
@@ -118,29 +118,50 @@ class ClientsPage extends Component {
                         </Paper>
                     </Grid>
 
-                    { sidebarOpen && (
+                    <Slide
+                        direction="left"
+                        mountOnEnter
+                        unmountOnExit
+                        in={sidebarOpen}
+                        {...(sidebarOpen ? { timeout: 500 } : {})} 
+                    >
                         <Grid item xs={4} className={classes.gridContainer}>
                             <Paper className={classes.paper} elevation={1}>
                                 <Grid container direction="column" spacing={24}>
-                                    
-                                    { clientInfoOpen && (
-                                        <ClientsPageInfo 
-                                            
-                                            clearCurrentClient={this.clearCurrentClient}
-                                            openIndivClientPage={this.openIndivClientPage}
-                                        />
-                                    )}
 
-                                    { controlsOpen && (
-                                        <ClientsPageControls 
-                                            selection={selection}
-                                        />
-                                    )}
+                                <Slide
+                                    direction="left"
+                                    mountOnEnter
+                                    unmountOnExit
+                                    in={clientInfoOpen}
+                                    {...(clientInfoOpen ? { timeout: 750 } : {})} 
+                                >
+                                    <ClientsPageInfo 
+                                        currentClient={currentClient}
+                                        clearCurrentClient={this.clearCurrentClient}
+                                        openIndivClientPage={this.openIndivClientPage}
+                                    />
+                                </Slide>
+
+                                <Slide
+                                    direction="left"
+                                    mountOnEnter
+                                    unmountOnExit
+                                    in={controlsOpen}
+                                    {...(controlsOpen ? { timeout: 750 } : {})} 
+                                >
+                                   <ClientsPageControls 
+                                        selection={selection}
+                                    />
+                                </Slide>
+            
+                                    
                                     
                                 </Grid>
                             </Paper>
                         </Grid>
-                    )}
+                    </Slide>
+
                 </Grid>
             </Fragment>
         )

@@ -39,7 +39,7 @@ class ClientsPageInfo extends Component {
                             <Grid container spacing={8} >
                                 <Grid item xs={9}>
                                     <Typography variant="h3" align="left" gutterBottom>
-                                        {currentClient ? currentClient.name : 'Sample Name'}
+                                        {currentClient ? currentClient.name : null}
                                     </Typography>
                                 </Grid>
 
@@ -61,7 +61,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom >
-                                        {currentClient ? currentClient.email : 'SampleEmail@email.com'}
+                                        {currentClient ? currentClient.email : null}
                                     </Typography>
 
                                     <Typography variant="subtitle1" >
@@ -69,7 +69,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom>
-                                        {currentClient ? currentClient.phone : '555-555-5555'}
+                                        {currentClient ? currentClient.phone : null}
                                     </Typography>
 
                                     <Typography variant="subtitle1" >
@@ -77,7 +77,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom >
-                                        {currentClient ? currentClient.phone : '234-432-1221'}
+                                        {currentClient ? currentClient.phone : null}
                                     </Typography>
 
                                     <Typography variant="subtitle1" >
@@ -85,7 +85,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom>
-                                        {currentClient ? currentClient.phone : '555-555-5555'}
+                                        {currentClient ? currentClient.phone : null}
                                     </Typography>
 
                                 </Grid>
@@ -97,7 +97,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom >
-                                        {currentClient ? currentClient.dob : '00-00-1900'}
+                                        {currentClient ? currentClient.dob : null}
                                     </Typography>
 
                                     <Typography variant="subtitle1" >
@@ -115,7 +115,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom >
-                                        {currentClient ? currentClient.occ : 'retired'}
+                                        {currentClient ? currentClient.occ : null}
                                     </Typography>
 
                                     <Typography variant="subtitle1" >
@@ -123,7 +123,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom >
-                                        {currentClient ? currentClient.soc : '55-555-5555'}
+                                        {currentClient ? currentClient.soc : null}
                                     </Typography>
 
                                 </Grid>
@@ -135,7 +135,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom >
-                                        {currentClient ? currentClient.status : 'incomplete'}
+                                        {currentClient ? currentClient.status : null}
                                     </Typography>
 
                                     <Typography variant="subtitle1" >
