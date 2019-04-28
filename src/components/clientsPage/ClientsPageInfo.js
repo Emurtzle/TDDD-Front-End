@@ -28,7 +28,7 @@ class ClientsPageInfo extends Component {
 
     render() {
 
-        const { classes, currentClient, clearCurrentClient } = this.props
+        const { classes, currentClient, clearCurrentClient, openIndivClientPage } = this.props
 
         return (
             <Grid item >
@@ -44,7 +44,7 @@ class ClientsPageInfo extends Component {
                                 </Grid>
 
                                 <Grid item xs={3}>
-                                    <Button size="large" >Open</Button>
+                                    <Button size="large" onClick={openIndivClientPage} >Open</Button>
                                     <Button size="large" onClick={clearCurrentClient} >Close</Button>
                                 </Grid>
                             </Grid>

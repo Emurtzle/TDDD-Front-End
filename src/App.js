@@ -13,6 +13,17 @@ import ClientsPage from './components/clientsPage/ClientsPage'
 import DueDatesPage from './components/duedatesPage/DueDatesPage'
 import CalendarsPage from './components/calendarsPage/CalendarsPage'
 
+
+const PrivateRoute = (loggedIn, path, render) => {
+    return (
+      <Route 
+        path={ path }
+        exact
+        render={ render }
+      />
+    )
+}
+
 const styles = theme => ({
 
 })
@@ -22,34 +33,50 @@ class App extends Component {
     super(props)
 
     this.state = {
-      user: null,
-      loggedIn: null
+      user: "tom",
+      loggedIn: true,
+      clientList: []
     }
   }
 
+  componentDidMount() {
+    this.fetchClientList()
+  }
+
+  fetchClientList = () => {
+    
+  }
+
   setLogIn = (user) => {
-    this.setState({user: user})
+    this.setState({
+      user: user,
+      loggedIn: true
+    })
   }
 
   setLogOut = () => {
-    this.setState({user: null})
+    this.setState({
+      user: null,
+      loggedIn: false
+    })
   }
 
   render() {
 
-    const { user } = this.state
+    const { user, loggedIn, clientList } = this.state
 
     return(
       <Router>
         <div>
-          <Route path="/"render={ () => <Navbar user={user} /> } />
+          <Route path="/"render={ () => <Navbar user={user} setLogOut={this.setLogOut} /> } />
 
-          <Route path="/login" render={ () => <LoginPage user={user} /> } />
+          <Route exact path="/login" render={ () => <LoginPage user={user} setLogIn={this.setLogIn} /> } />
 
-          <Route path="/" exact render={ () => <HomePage user={user} /> } />
-          <Route path="/clients" exact render={ () => <ClientsPage user={user} /> } />
-          <Route path="/duedates" exact render={ () => <DueDatesPage user={user} /> } />
-          <Route path="/calendars" exact render={ () => <CalendarsPage user={user} /> } />
+
+          {PrivateRoute(false, "/", () => <HomePage user={{user}} />)}
+          {PrivateRoute(false, "/clients", () => <ClientsPage user={{user}} clientList={clientList} />)}
+          {PrivateRoute(false, "/duedates", () => <DueDatesPage user={{user}} />)}
+          {PrivateRoute(false, "/calendars", () => <CalendarsPage user={{user}} />)}
           
         </div>
       </Router>
@@ -58,7 +85,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  
+  user: PropTypes.string
 }
 
 export default withStyles(styles)(App)

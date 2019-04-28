@@ -17,6 +17,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
+const url = "http://localhost:3000/api/v1/login"
+
 const styles = theme => ({
     main: {
         width: 'auto',
@@ -54,13 +56,41 @@ class LoginPage extends Component {
         super(props)
 
         this.state = {
-
+            username: '',
+            password: ''
         }
+    }
+
+    handleChange = (ev) => {
+        const value = ev.target.type === 'checkbox' ? ev.target.checked : ev.target.value
+        this.setState({[ev.target.name]: value})
+    }
+
+    loginRequest = () => {
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            },
+            body: JSON.stringify({
+                user: {
+                    name: this.state.username,
+                    password: this.state.password
+                }
+            })
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log("Success!", json)
+            // localStorage.setItem('UserID', json.user.id)
+        })
     }
 
     render() {
 
         const { classes } = this.props
+        const { username, password } = this.state
 
         return (
             <main className={classes.main}>
@@ -78,13 +108,26 @@ class LoginPage extends Component {
                     <form>
 
                         <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="email">Email Addresss</InputLabel>
-                            <Input id="email" name="email" autoComplete="email" autoFocus />
+                            <InputLabel htmlFor="email">Usernames</InputLabel>
+                            <Input 
+                                id="username"
+                                name="username"
+                                autoComplete="username"
+                                autoFocus
+                                value={username}
+                                onChange={this.handleChange}
+                            />
                         </FormControl>
 
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input id="password" name="password" type="password" autoComplete="current-password" />
+                            <Input id="password"
+                            name="password"
+                            type="password"
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={this.handleChange}
+                            />
                         </FormControl>
 
                         <FormControlLabel 
@@ -98,10 +141,10 @@ class LoginPage extends Component {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            onClick={this.loginRequest}
                         >
                             Log In
                         </Button>
-
 
                     </form>
                 </Paper>

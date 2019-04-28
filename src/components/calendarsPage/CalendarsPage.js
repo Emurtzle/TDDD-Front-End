@@ -24,7 +24,7 @@ class CalendarsPage extends Component {
 }
 
 CalendarsPage.propTypes = {
-    user: PropTypes.object.isRequired
+    
 }
 
 export default withStyles(styles)(CalendarsPage)

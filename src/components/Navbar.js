@@ -8,7 +8,10 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import AccountIcon from '@material-ui/icons/AccountCircle'
+import Avatar from '@material-ui/core/Avatar'
 
 const calendarsLink = props => <Link to="/calendars" {...props} />
 const clientsLink = props => <Link to="/clients" {...props} />
@@ -33,12 +36,36 @@ class Navbar extends Component {
         super(props)
 
         this.state = {
-
+            anchorEl: null
         }
     }
 
+    openMenu = (ev) => {
+        this.setState({ anchorEl: ev.currentTarget })
+    }
+
+    closeMenu = () => {
+        this.setState({ anchorEl: null })
+    }
+
+    accountButton = () => {
+        this.closeMenu()
+        console.log("Open Account Page")
+    }
+
+    settingsButton = () => {
+        this.closeMenu()
+        console.log("Open Settings Page")
+    }
+
+    logoutButton = () => {
+        this.closeMenu()
+        this.props.setLogOut()
+    }
+
     render() {
-        const { classes } = this.props
+        const { anchorEl } = this.state
+        const { classes, setLogOut } = this.props
 
         return (
             <div className={classes.root}>
@@ -56,9 +83,26 @@ class Navbar extends Component {
                         <Button size="large" color="inherit">Jobs</Button>
                         <Button size="large" color="inherit">Tasks</Button>
 
-                        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                            <MenuIcon />
+                        <IconButton
+                            className={classes.menuButton}
+                            color="inherit"
+                            aria-label="Menu"
+                            onClick={this.openMenu}
+                        >
+                            <AccountIcon fontSize="large"/>
                         </IconButton>
+                        <Menu
+                            id="account-menu"
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={this.closeMenu}
+                        >
+                            <MenuItem onClick={this.accountButton}>My Account</MenuItem>
+                            <MenuItem onClick={this.settingsButton}>Settings</MenuItem>
+                            <MenuItem onClick={this.logoutButton}>Logout</MenuItem>
+                        </Menu>
+
+
                     </Toolbar>
                 </AppBar>
             </div>
