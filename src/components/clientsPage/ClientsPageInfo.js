@@ -105,9 +105,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom>
-                                        ***address info
-                                        ***address info
-                                        ***address info
+                                       {currentClient ? currentClient.address : null}
                                     </Typography>
 
                                     <Typography variant="subtitle1" >
@@ -142,7 +140,7 @@ class ClientsPageInfo extends Component {
                                         Due Dates Completed:
                                     </Typography>
 
-                                    <Typography variant="body1" gutterBottom>
+                                    <Typography variant="body2" gutterBottom>
                                         {currentClient ? currentClientDuedates.filter(item => item.status === "complete").length : null}
                                     </Typography>
 

@@ -1,91 +1,39 @@
-const sidebarTransDuration = 500
-const clientInfoTransDuration = 250
-const clientsControlTransDuration = 250
-
-const sidebarTranStyle = {
-    transition: `opacity ${sidebarTransDuration}ms ease-in-out`,
-    opacity: 0
-}
-
-const clientInfoTranStyle = {
-    transition: `opacity ${clientInfoTransDuration}ms ease-in-out`,
-    opacity: 0
-}
-
-const clientsControlTranStyle = {
-    transition: `opacity ${clientsControlTransDuration}ms ease-in-out`,
-    opacity: 0
-}
 
 
-const fadeTransitionStyles = {
-    entering: { opacity: 1 },
-    entered:  { opacity: 1 },
-    exiting:  { opacity: 0 },
-    exited:  { opacity: 0 }
-}
+<Grid item key={index}>
+                <Paper style={{padding: 10, textAlign: 'center'}}>
+                    <Grid container spacing={8} >
+                        <Grid item xs={6}> 
+                            <Typography variant="title" align="left">
+                                {duedate.name}
+                            </Typography>
+                        </Grid>
 
+                        <Grid item xs={6}>
+                            <Button>Open</Button>
+                            <Button>Edit</Button>
+                            <Button>Mark Complete</Button>
+                        </Grid>
 
-                    <Transition 
-                        in={sidebarOpen}
-                        timeout={sidebarTransDuration}
-                    >
-                        {state => (
+                        <Grid item xs={9}>
+                            <Typography variant="subtitle1" align="left">
+                                Due:
+                            </Typography>
 
-                            <Grid
-                                item xs={4}
-                                className={classes.gridContainer}
-                                style={{
-                                    ...sidebarTranStyle,
-                                    ...fadeTransitionStyles[state]
-                                }}
-                            >
-                                <Paper className={classes.paper} elevation={1}>
-                                    <Grid container direction="column" spacing={24}>
+                            <Typography variant="body1" align="left">
+                                {duedate.dateDue}
+                            </Typography>
+                        </Grid>
 
-                                        <Transition
-                                            in={clientInfoOpen}
-                                            timeout={clientInfoTransDuration}
-                                            mountOnEnter
-                                            unmountOnExit
-                                        >
-                                            {state => (
-                                                <div style={{
-                                                    ...sidebarTranStyle,
-                                                    ...fadeTransitionStyles[state]
-                                                }}>
-                                                    <ClientsPageInfo 
-                                                        currentClient={currentClient}
-                                                        clearCurrentClient={this.clearCurrentClient}
-                                                        openIndivClientPage={this.openIndivClientPage}
-                                                    />
-                                                </div>
-                                            )}
-                                            
-                                        </Transition>
+                        <Grid item xs={3}>
+                            <Typography variant="subtitle1" >
+                                Status:
+                            </Typography>
 
-                                        <Transition
-                                            in={controlsOpen}
-                                            timeout={clientsControlTransDuration}
-                                            mountOnEnter
-                                            unmountOnExit
-                                        >
-                                            {state => (
-                                                <div style={{
-                                                    ...sidebarTranStyle,
-                                                    ...fadeTransitionStyles[state]
-                                                }}>
-                                                    <ClientsPageControls 
-                                                        selection={selection}
-                                                    />
-                                                </div>
-                                            )}
-                                            
-                                        </Transition>
-                                        
-                                    </Grid>
-                                </Paper>
-                            </Grid>
-
-                        )}
-                    </Transition>
+                            <Typography variant="body1" >
+                                {duedate.status}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Paper>
+            </Grid>
