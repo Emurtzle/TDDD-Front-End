@@ -43,6 +43,7 @@ class ClientsPage extends Component {
 
        this.state = {
            currentClient: null,
+           currentClientDuedates: [],
            selection: [],
            clientInfoOpen: false,
            controlsOpen: false,
@@ -62,7 +63,25 @@ class ClientsPage extends Component {
        this.setState({
            currentClient: client,
            clientInfoOpen: true
-    })
+        }, () => {
+            this.getCurrentClientDuedates()
+        })
+   }
+
+   getCurrentClientDuedates = () => {
+        const { currentClient } = this.state
+        const url = `http://localhost:3000/api/v1/clients/${currentClient.id}/duedates`
+
+        fetch (url, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('Token')}`
+            }
+        })
+        .then(response => response.json())
+        .then(json => {
+            this.setState({currentClientDuedates: json})
+        })
    }
 
    clearCurrentClient = () => {
@@ -86,7 +105,7 @@ class ClientsPage extends Component {
 
     render() {
         const { classes, clientList } = this.props
-        const { currentClient, clientInfoOpen, controlsOpen, selection, indivClientPageOpen } = this.state
+        const { currentClient, currentClientDuedates, clientInfoOpen, controlsOpen, selection, indivClientPageOpen } = this.state
         const sidebarOpen = (clientInfoOpen || controlsOpen)
 
         return (
@@ -101,6 +120,7 @@ class ClientsPage extends Component {
                 >
                     <IndivClientPage 
                         currentClient={currentClient}
+                        currentClientDuedates={currentClientDuedates}
                         closeIndivClientPage={this.closeIndivClientPage}
                     />
                 </Modal>
@@ -108,7 +128,8 @@ class ClientsPage extends Component {
                 <Grid container spacing={24} className={classes.gridContainer}>
                     <Grid item xs={currentClient ? 8 : 12}>
                         <Paper className={classes.paper} elevation={1}>
-                            <ClientsPageTable 
+                            <ClientsPageTable
+                                clientList={clientList}
                                 setCurrentClient={this.setCurrentClient}
                                 openClientControls={this.openClientControls}
                                 closeClientControls={this.closeClientControls}
@@ -138,6 +159,7 @@ class ClientsPage extends Component {
                                 >
                                     <ClientsPageInfo 
                                         currentClient={currentClient}
+                                        currentClientDuedates={currentClientDuedates}
                                         clearCurrentClient={this.clearCurrentClient}
                                         openIndivClientPage={this.openIndivClientPage}
                                     />
@@ -150,7 +172,7 @@ class ClientsPage extends Component {
                                     in={controlsOpen}
                                     {...(controlsOpen ? { timeout: 750 } : {})} 
                                 >
-                                   <ClientsPageControls 
+                                   <ClientsPageControls
                                         selection={selection}
                                     />
                                 </Slide>

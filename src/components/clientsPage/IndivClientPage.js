@@ -29,8 +29,81 @@ class IndivClientPage extends Component {
         super(props)
 
         this.state = {
-
+            duedates: [
+                {
+                    name: "test",
+                    description: "testy mctest description",
+                    dateDue: "01-01-2019",
+                    status: "incomplete"
+                },
+                {
+                    name: "test2",
+                    description: "testy2 mctest2 description2",
+                    dateDue: "01-01-2019",
+                    status: "incomplete"
+                },
+                {
+                    name: "test3",
+                    description: "testy3 mctest3 description3",
+                    dateDue: "01-01-2019",
+                    status: "incomplete"
+                },
+                {
+                    name: "test4",
+                    description: "testy4 mctest4 description4",
+                    dateDue: "01-01-2019",
+                    status: "incomplete"
+                },
+                {
+                    name: "test5",
+                    description: "testy5 mctest5 description5",
+                    dateDue: "01-01-2019",
+                    status: "incomplete"
+                }
+            ]
         }
+    }
+
+    loadDuedates = () => {
+        return this.props.currentClientDuedates.map((duedate, index) => (
+            <Grid item key={index}>
+                <Paper style={{padding: 10, textAlign: 'center'}}>
+                    <Grid container spacing={8} >
+                        <Grid item xs={6}> 
+                            <Typography variant="title" align="left">
+                                {duedate.name}
+                            </Typography>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            <Button>Open</Button>
+                            <Button>Edit</Button>
+                            <Button>Mark Complete</Button>
+                        </Grid>
+
+                        <Grid item xs={9}>
+                            <Typography variant="subtitle1" align="left">
+                                Due:
+                            </Typography>
+
+                            <Typography variant="body1" align="left">
+                                {duedate.dateDue}
+                            </Typography>
+                        </Grid>
+
+                        <Grid item xs={3}>
+                            <Typography variant="subtitle1" >
+                                Status:
+                            </Typography>
+
+                            <Typography variant="body1" >
+                                {duedate.status}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Paper>
+            </Grid>
+        ))
     }
 
     render() {
@@ -38,24 +111,22 @@ class IndivClientPage extends Component {
         const { classes, currentClient, closeIndivClientPage } = this.props
 
         return (
-            <Paper style={{top: '15%', left: '15%'}} className={classes.modalPaper}>
-                <Grid container >
-                    <Grid item >
-                        <Grid container spacing={8} justify="center" direction="column" alignItems="stretch">
+            <Paper style={{top: '7%', left: '5%'}} className={classes.modalPaper}>
+                <Grid container spacing={8}>
+                    <Grid item xs={12} align="right">
+                        <Button>Edit Client</Button>
+                        <Button onClick={closeIndivClientPage}>Close Window</Button>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <Grid container spacing={8} direction="column">
 
                             <Grid item>
                                 <Paper className={classes.paper} >
-                                    <Grid container spacing={8} >
-                                        <Grid item xs={9}>
-                                            <Typography variant="h3" align="left" gutterBottom>
-                                                {currentClient ? currentClient.name : 'Sample Name'}
-                                            </Typography>
-                                        </Grid>
-
-                                        <Grid item xs={3}>
-                                            <Button size="large" onClick={closeIndivClientPage} >Close</Button>
-                                        </Grid>
-                                    </Grid>
+                                    <Typography variant="h3" align="center" gutterBottom >
+                                        {currentClient ? `${currentClient.firstName} ${currentClient.lastName}` : null}
+                                    </Typography>
+                                    
                                 </Paper>
                             </Grid>
                             
@@ -155,6 +226,26 @@ class IndivClientPage extends Component {
                                             </Typography>
 
                                         </Grid>
+                                    </Grid>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                
+                    <Grid item xs={6}>
+                        <Grid container spacing={16} direction="column">
+                            <Grid item >
+                                <Paper className={classes.paper} >
+                                    <Typography variant="h3" align="center" gutterBottom> 
+                                        Due Dates
+                                    </Typography>
+                                </Paper>
+                            </Grid>
+
+                            <Grid item >
+                                <Paper className={classes.paper}> 
+                                    <Grid container direction="column" spacing={8}>
+                                        {this.loadDuedates()}
                                     </Grid>
                                 </Paper>
                             </Grid>

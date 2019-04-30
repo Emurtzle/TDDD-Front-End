@@ -28,7 +28,7 @@ class ClientsPageInfo extends Component {
 
     render() {
 
-        const { classes, currentClient, clearCurrentClient, openIndivClientPage } = this.props
+        const { classes, currentClient, currentClientDuedates, clearCurrentClient, openIndivClientPage } = this.props
 
         return (
             <Grid item >
@@ -39,7 +39,7 @@ class ClientsPageInfo extends Component {
                             <Grid container spacing={8} >
                                 <Grid item xs={9}>
                                     <Typography variant="h3" align="left" gutterBottom>
-                                        {currentClient ? currentClient.name : null}
+                                        {currentClient ? `${currentClient.firstName} ${currentClient.lastName}` : null}
                                     </Typography>
                                 </Grid>
 
@@ -104,7 +104,7 @@ class ClientsPageInfo extends Component {
                                         Address:
                                     </Typography>
 
-                                    <Typography variant="body2" >
+                                    <Typography variant="body2" gutterBottom>
                                         ***address info
                                         ***address info
                                         ***address info
@@ -115,7 +115,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom >
-                                        {currentClient ? currentClient.occ : null}
+                                        {currentClient ? currentClient.occupation : null}
                                     </Typography>
 
                                     <Typography variant="subtitle1" >
@@ -123,7 +123,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom >
-                                        {currentClient ? currentClient.soc : null}
+                                        {currentClient ? currentClient.ssn : null}
                                     </Typography>
 
                                 </Grid>
@@ -138,12 +138,20 @@ class ClientsPageInfo extends Component {
                                         {currentClient ? currentClient.status : null}
                                     </Typography>
 
-                                    <Typography variant="subtitle1" >
-                                        Number of Due Dates: 
+                                    <Typography variant="subtitle1">
+                                        Due Dates Completed:
                                     </Typography>
 
-                                    <Typography variant="body2">
-                                        **Number of due dates
+                                    <Typography variant="body1" gutterBottom>
+                                        {currentClient ? currentClientDuedates.filter(item => item.status === "complete").length : null}
+                                    </Typography>
+
+                                    <Typography variant="subtitle1" >
+                                        Remaining Due Dates: 
+                                    </Typography>
+
+                                    <Typography variant="body2" gutterBottom>
+                                        {currentClient ? currentClientDuedates.filter(item => item.status !== "complete").length : null}
                                     </Typography>
 
                                 </Grid>

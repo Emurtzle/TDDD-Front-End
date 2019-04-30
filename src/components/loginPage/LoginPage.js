@@ -1,5 +1,6 @@
 import React, { Component }from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom';
 
 import moment from 'moment'
 
@@ -66,8 +67,10 @@ class LoginPage extends Component {
         this.setState({[ev.target.name]: value})
     }
 
-    loginRequest = () => {
-        fetch(url, {
+    loginRequest = (ev) => {
+        ev.preventDefault()
+
+        fetch("http://localhost:3000/api/v1/login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -75,17 +78,19 @@ class LoginPage extends Component {
             },
             body: JSON.stringify({
                 user: {
-                    name: this.state.username,
+                    username: this.state.username,
                     password: this.state.password
                 }
             })
         })
         .then(response => response.json())
         .then(json => {
+            localStorage.setItem('Username', json.user.username)
             localStorage.setItem('Token', json.jwt)
-            localStorage.setItem('User', json.user)
-            this.props.setLogIn(json.user)
-            console.log("Success!", json)
+            return json.user
+        })
+        .then( user => {
+            this.props.setLogIn(user)
         })
     }
 

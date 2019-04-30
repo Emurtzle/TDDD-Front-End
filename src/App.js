@@ -45,19 +45,18 @@ class App extends Component {
     super(props)
 
     this.state = {
-      user: 'null',
+      user: null,
       loggedIn: false,
       clientList: []
     }
   }
 
   componentDidMount() {
-    // this.checkLogin()
-    // this.fetchClientList()
+    
   }
 
   checkLogin = () => {
-    if (!localStorage.getItem('jwt')) {
+    if (!localStorage.getItem('Token')) {
       this.setState({loggedIn: false})
     } else {
       this.setState({loggedIn: true})
@@ -65,7 +64,16 @@ class App extends Component {
   }
 
   fetchClientList = () => {
-    console.log('Attempting to Fetch Clients List')
+    fetch ('http://localhost:3000/api/v1/clients', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('Token')}`
+      }
+    })
+    .then(response => response.json())
+    .then(json => {
+      this.setState({clientList: json})
+    })
   }
 
   setLogIn = (user) => {
@@ -73,6 +81,8 @@ class App extends Component {
       user: user,
       loggedIn: true
     })
+
+    this.fetchClientList()
   }
 
   setLogOut = () => {
