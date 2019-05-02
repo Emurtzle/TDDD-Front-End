@@ -5,7 +5,7 @@ import ClientsPageTable from './ClientsPageTable'
 import ClientsPageInfo from './ClientsPageInfo'
 import ClientsPageControls from './ClientsPageControls'
 import IndivClientPage from './IndivClientPage'
-import AddClientPage from './AddClientPage'
+import AddClientModal from './addClientViaFormModal'
 
 import moment from 'moment'
 import uuid from 'uuid'
@@ -13,15 +13,10 @@ import uuid from 'uuid'
 import { Transition } from 'react-transition-group'
 
 
-import { withStyles } from '@material-ui/core'
+import { withStyles, FormControl } from '@material-ui/core'
 
 import Modal from '@material-ui/core/Modal'
 import Avatar from '@material-ui/core/Avatar'
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
@@ -29,16 +24,12 @@ import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import Slide from '@material-ui/core/Slide'
 import Grow from '@material-ui/core/Grow'
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import FormIcon from '@material-ui/icons/FormatAlignLeft'
-import AttachmentIcon from '@material-ui/icons/AttachFile'
+import InputLabel from '@material-ui/core/InputLabel'
 import Popper from '@material-ui/core/Popper'
 import MenuItem from '@material-ui/core/MenuItem'
 import MenuList from '@material-ui/core/MenuList'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import Input from '@material-ui/core/Input'
 
 const styles = theme => ({
     paper: {
@@ -55,6 +46,9 @@ const styles = theme => ({
     },
     growShrink: {
         transition: "0.25s"
+    },
+    formControl: {
+        margin: theme.spacing.unit
     }
 })
 
@@ -158,6 +152,9 @@ class ClientsPage extends Component {
         this.setState({exportOptionsOpen: false})
      }
 
+     submitNewClient = (client) => {
+        console.log('Client: ', client)
+     }
 
 
 
@@ -195,16 +192,6 @@ class ClientsPage extends Component {
                     />
                 </Modal>
 
-                <Modal
-                    aria-labelledby='addClientPage'
-                    aria-describedby='Page for adding a client'
-                    disableBackdropClick
-                    open={addClientModalOpen}
-                    onClose={this.closeAddClientModal}
-                >
-                    <AddClientPage />
-                </Modal>
-
                 <Popper
                         open={addClientOptionsOpen}
                         anchorEl={this.anchorEl}
@@ -223,7 +210,13 @@ class ClientsPage extends Component {
                                 <Paper>
                                     <ClickAwayListener onClickAway={this.closeAddClientOptions}>
                                         <MenuList>
-                                            <MenuItem>Via Form</MenuItem>
+                                            <MenuItem onClick={() => {
+                                                this.closeAddClientOptions()
+                                                this.openAddClientModal()
+                                                }}
+                                                >
+                                                    Via Form
+                                                </MenuItem>
                                             <MenuItem>Via CSV</MenuItem>
                                             <MenuItem>Via Excel</MenuItem>
                                         </MenuList>
@@ -252,7 +245,6 @@ class ClientsPage extends Component {
                             <Paper>
                                 <ClickAwayListener onClickAway={this.closeImportOptions}>
                                     <MenuList>
-                                        <MenuItem>Via Form</MenuItem>
                                         <MenuItem>Via CSV</MenuItem>
                                         <MenuItem>Via Excel</MenuItem>
                                     </MenuList>
@@ -290,6 +282,12 @@ class ClientsPage extends Component {
                     )}
 
                 </Popper>
+
+                <AddClientModal 
+                    addClientModalOpen={addClientModalOpen}
+                    closeAddClientModal={this.closeAddClientModal}
+                    submitNewClient={this.submitNewClient}
+                />
 
                 <Grid container spacing={24}>
                     
