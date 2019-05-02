@@ -1,39 +1,145 @@
+<Dialog
+    open={addClientOptionsOpen}
+    onClose={this.closeAddClientOptions}
+    aria-labelledby='Add a Client'
+>
+    <DialogTitle>Add a Client Via: </DialogTitle>
+    
+    <List>
 
+        <ListItem
+            button
+            onClick={null}
+        >
+            <ListItemAvatar>
+                <Avatar>
+                    <FormIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary='Via Form' />
+        </ListItem>
 
-<Grid item key={index}>
-                <Paper style={{padding: 10, textAlign: 'center'}}>
-                    <Grid container spacing={8} >
-                        <Grid item xs={6}> 
-                            <Typography variant="title" align="left">
-                                {duedate.name}
-                            </Typography>
-                        </Grid>
+        <ListItem
+            button
+            onClick={null}
+        >
+            <ListItemAvatar>
+                <Avatar>
+                    <AttachmentIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary='Via CSV' />
+        </ListItem>
 
-                        <Grid item xs={6}>
-                            <Button>Open</Button>
-                            <Button>Edit</Button>
-                            <Button>Mark Complete</Button>
-                        </Grid>
+        <ListItem
+            button
+            onClick={null}
+        >
+            <ListItemAvatar>
+                <Avatar>
+                    <AttachmentIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary='Via Excel' />
+        </ListItem>
 
-                        <Grid item xs={9}>
-                            <Typography variant="subtitle1" align="left">
-                                Due:
-                            </Typography>
+    </List>
 
-                            <Typography variant="body1" align="left">
-                                {duedate.dateDue}
-                            </Typography>
-                        </Grid>
+    <DialogActions>
+        <Button onClick={this.closeAddClientOptions}>
+            Cancel
+        </Button>
+    </DialogActions>
+</Dialog>
 
-                        <Grid item xs={3}>
-                            <Typography variant="subtitle1" >
-                                Status:
-                            </Typography>
+<Dialog
+    open={importOptionsOpen}
+    onClose={this.closeImportOptions}
+    aria-labelledby='import client options'
+>
+    <DialogTitle>Import Options</DialogTitle>
+    
+    <List>
+        <ListItem
+            button
+            onClick={null}
+        >
+            <ListItemAvatar>
+                <Avatar>
+                    <AttachmentIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary='Via CSV' />
+        </ListItem>
 
-                            <Typography variant="body1" >
-                                {duedate.status}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                </Paper>
-            </Grid>
+        <ListItem
+            button
+            onClick={null}
+        >
+            <ListItemAvatar>
+                <Avatar>
+                    <AttachmentIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary='Via Excel' />
+        </ListItem>
+
+        <ListItem
+            button
+            onClick={null}
+        >
+            <ListItemAvatar>
+                <Avatar>
+                    <FormIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary='Via Form' />
+        </ListItem>
+    </List>
+
+    <DialogActions>
+        <Button onClick={this.closeImportOptions}>
+            Cancel
+        </Button>
+    </DialogActions>
+</Dialog>
+
+<Dialog
+    open={exportOptionsOpen}
+    onClose={this.closeExportOptions}
+    aria-labelledby='export client options'
+>
+    <DialogTitle>Export Options</DialogTitle>
+    
+    <List>
+        <ListItem
+            button
+            onClick={null}
+        >
+            <ListItemAvatar>
+                <Avatar>
+                    <AttachmentIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary='CSV File' />
+        </ListItem>
+
+        <ListItem
+            button
+            onClick={null}
+        >
+            <ListItemAvatar>
+                <Avatar>
+                    <AttachmentIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary='Excel File' />
+        </ListItem>
+    </List>
+
+    <DialogActions>
+        <Button onClick={this.closeExportOptions}>
+            Cancel
+        </Button>
+    </DialogActions>
+</Dialog>

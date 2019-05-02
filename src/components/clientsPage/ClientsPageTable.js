@@ -7,20 +7,24 @@ import moment from 'moment'
 
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
 
 import {
     Grid,
     Table, TableHeaderRow, TableSelection,
     Toolbar,
-    SearchPanel
+    SearchPanel, PagingPanel
  } from '@devexpress/dx-react-grid-material-ui'
 
 import { 
     SelectionState,
-    SearchState,
-    IntegratedFiltering
+    SearchState, IntegratedFiltering,
+    SortingState, IntegratedSorting,
+    PagingState, IntegratedPaging
 } from '@devexpress/dx-react-grid'
+
+import { ToolbarControls } from './Toolbar-Controls'
 
 
 
@@ -40,10 +44,12 @@ class ClientsTable extends Component {
                 {name: 'email', title: 'Email'},
                 {name: 'dob', title: 'DOB'},
                 {name: 'occupation', title: 'Occupation'},
-                {name: 'ssn', title: 'SSN'}
+                {name: 'ssn', title: 'SSN'},
+                {name: 'duedates', title: 'Due Dates'}
             ],
             selection: [],
-            selectedClient: null
+            selectedClient: null,
+            pageSizes: [10, 15, 25, 50, 75, 100, 250]
         }
     }
 
@@ -60,31 +66,30 @@ class ClientsTable extends Component {
 
     tableRow = ({ row, ...restProps }) => {
         let color = ""
-    
-        switch(row.status) {
-            case 'complete':
+        let temparr = this.props.duedateList.filter(item => item.client_id === row.id)
+        let temparr2 = temparr.filter(item => item.status !== 'complete')
+        let ddcount = temparr.length
+        let ddc = temparr2.length
+
+        Object.assign(row, {duedates: `${ddcount-ddc} / ${ddcount}`})
+
+        switch(ddc) {
+            case 0:
                 color = '#a2a2a4'
                 break
-            case 'incomplete':
+            default:
                 color = '#ffcdd2'
                 break
-            default:
-                color = ""
-                break
         }
-    
-        if (row.status === "complete") {
-            color = '#a2e2a4'
-        } else if (row.status === 'incomplete') {
-            color = '#ffcdd2'
-        }
-    
-        // debugger
     
         return (
             <Table.Row 
                 {...restProps}
                 onClick={() => this.props.setCurrentClient(row)}
+                onDoubleClick={() => {
+                    this.props.setCurrentClient(row)
+                    this.props.openIndivClientPage()
+                }}
                 style={{
                     cursor: 'pointer',
                     background: color
@@ -94,18 +99,44 @@ class ClientsTable extends Component {
     }
 
     render() {
-        const { clientList } = this.props
-        const { columns, selection } = this.state
+        const { 
+            clientList, 
+            openImportOptions, openExportOptions, openAddClientOptions
+        } = this.props
+
+        const { columns, selection, pageSizes } = this.state
 
         return (
             <Paper>
                 <Grid rows={clientList} columns={columns}>
                     <SearchState defaultValue="" />
                     <IntegratedFiltering />
+
+                    <SortingState />
+                    <IntegratedSorting />
+
                     <SelectionState selection={selection} onSelectionChange={this.changeSelection} />
+
+                    <PagingState 
+                        defaultCurrentPage={0}
+                        defaultPageSize={10}
+                    />
+                    <IntegratedPaging />
+
                     <Table rowComponent={this.tableRow}/>
-                    <TableHeaderRow />
+                    <TableHeaderRow showSortingControls />
+
+                    <PagingPanel
+                        pageSizes={pageSizes}
+                    />
+
                     <Toolbar />
+                    <ToolbarControls 
+                        openImportOptions={openImportOptions}
+                        openExportOptions={openExportOptions}
+                        openAddClientOptions={openAddClientOptions}
+                    />
+
                     <SearchPanel />
                     <TableSelection />
                 </Grid>

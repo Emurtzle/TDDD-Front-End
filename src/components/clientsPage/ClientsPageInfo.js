@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import moment from 'moment'
 
-import { withStyles } from '@material-ui/core';
+import { withStyles, Divider } from '@material-ui/core';
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -28,31 +28,37 @@ class ClientsPageInfo extends Component {
 
     render() {
 
-        const { classes, currentClient, currentClientDuedates, clearCurrentClient, openIndivClientPage } = this.props
+        const { 
+            classes, 
+            currentClient, currentClientDuedates,
+            clearCurrentClient, openIndivClientPage 
+        } = this.props
 
         return (
             <Grid item >
-                <Grid container spacing={8} justify="center" direction="column" alignItems="stretch">
+                <Paper className={classes.paper} >
+                    <Grid container spacing={8} justify="center" direction="column" alignItems="stretch">
 
-                    <Grid item>
-                        <Paper className={classes.paper} >
-                            <Grid container spacing={8} >
-                                <Grid item xs={9}>
-                                    <Typography variant="h3" align="left" gutterBottom>
-                                        {currentClient ? `${currentClient.firstName} ${currentClient.lastName}` : null}
-                                    </Typography>
-                                </Grid>
+                        <Grid item>
+                            <Button size="large" onClick={openIndivClientPage} >Open</Button>
+                            <Button size="large" onClick={clearCurrentClient} >Close</Button>
+                        </Grid>
 
-                                <Grid item xs={3}>
-                                    <Button size="large" onClick={openIndivClientPage} >Open</Button>
-                                    <Button size="large" onClick={clearCurrentClient} >Close</Button>
-                                </Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid>
-                    
-                    <Grid item>
-                        <Paper className={classes.paper} >
+                        <Grid item>
+                            <Divider variant='middle' />
+                        </Grid>
+
+                        <Grid item>
+                            <Typography variant="h3" align="center" gutterBottom>
+                                {currentClient ? `${currentClient.firstName} ${currentClient.lastName}` : null}
+                            </Typography>
+                        </Grid>
+
+                        <Grid item>
+                            <Divider variant='middle' />
+                        </Grid>
+                        
+                        <Grid item>
                             <Grid container spacing={8} >
                             
                                 <Grid item xs={4}>
@@ -105,7 +111,7 @@ class ClientsPageInfo extends Component {
                                     </Typography>
 
                                     <Typography variant="body2" gutterBottom>
-                                       {currentClient ? currentClient.address : null}
+                                    {currentClient ? currentClient.address : null}
                                     </Typography>
 
                                     <Typography variant="subtitle1" >
@@ -154,9 +160,9 @@ class ClientsPageInfo extends Component {
 
                                 </Grid>
                             </Grid>
-                        </Paper>
+                        </Grid>
                     </Grid>
-                </Grid>
+                </Paper>
             </Grid>
         )
     }

@@ -47,7 +47,8 @@ class App extends Component {
     this.state = {
       user: null,
       loggedIn: false,
-      clientList: []
+      clientList: [],
+      duedateList: []
     }
   }
 
@@ -76,6 +77,19 @@ class App extends Component {
     })
   }
 
+  fetchDueDates = () => {
+    fetch('http://localhost:3000/api/v1/duedates', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('Token')}`
+      }
+    })
+    .then(response => response.json())
+    .then(json => {
+      this.setState({duedateList: json})
+    })
+  }
+
   setLogIn = (user) => {
     this.setState({
       user: user,
@@ -83,6 +97,7 @@ class App extends Component {
     })
 
     this.fetchClientList()
+    this.fetchDueDates()
   }
 
   setLogOut = () => {
@@ -94,7 +109,10 @@ class App extends Component {
 
   render() {
 
-    const { user, loggedIn, clientList } = this.state
+    const {
+      user, loggedIn, 
+      clientList, duedateList
+    } = this.state
 
     return(
       <Router>
@@ -107,7 +125,7 @@ class App extends Component {
 
 
           {PrivateRoute(loggedIn, "/", () => <HomePage user={{user}} />)}
-          {PrivateRoute(loggedIn, "/clients", () => <ClientsPage user={{user}} clientList={clientList} />)}
+          {PrivateRoute(loggedIn, "/clients", () => <ClientsPage user={{user}} clientList={clientList} duedateList={duedateList} />)}
           {PrivateRoute(loggedIn, "/duedates", () => <DueDatesPage user={{user}} />)}
           {PrivateRoute(loggedIn, "/calendars", () => <CalendarsPage user={{user}} />)}
           

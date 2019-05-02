@@ -69,10 +69,7 @@ class ClientsPage extends Component {
            clientInfoOpen: false,
            controlsOpen: false,
            indivClientPageOpen: false,
-           addClientModalOpen: false,
-           addClientOptionsOpen: false,
-           importOptionsOpen: false,
-           exportOptionsOpen: false
+           addClientModalOpen: false
        }
    }
 
@@ -128,41 +125,6 @@ class ClientsPage extends Component {
         this.setState({addClientModalOpen: false})
     }
 
-    openAddClientOptions = (ev) => {
-        this.anchorEl = ev.currentTarget
-        this.setState({addClientOptionsOpen: true})
-     }
-
-     closeAddClientOptions = () => {
-        this.anchorEl = null
-        this.setState({addClientOptionsOpen: false})
-     }
- 
-    openImportOptions = (ev) => {
-        this.anchorEl = ev.currentTarget
-        this.setState({importOptionsOpen: true})
-    }
-
-    closeImportOptions = () => {
-        this.anchorEl = null
-        this.setState({importOptionsOpen: false})
-     }
-     
-     openExportOptions = (ev) => {
-         this.anchorEl = ev.currentTarget
-         this.setState({exportOptionsOpen: true})
-     }
-
-     closeExportOptions = () => {
-        this.anchorEl = null
-        this.setState({exportOptionsOpen: false})
-     }
-
-
-
-
-
-
     render() {
         const {
             classes, 
@@ -204,92 +166,6 @@ class ClientsPage extends Component {
                 >
                     <AddClientPage />
                 </Modal>
-
-                <Popper
-                        open={addClientOptionsOpen}
-                        anchorEl={this.anchorEl}
-                        transition
-                        disablePortal
-                        style={{zIndex: 99}}
-                    >
-
-                        {({TransitionProps, placement }) => (
-                            <Grow
-                                {...TransitionProps}
-                                style={{
-                                    transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'
-                                }}
-                            >
-                                <Paper>
-                                    <ClickAwayListener onClickAway={this.closeAddClientOptions}>
-                                        <MenuList>
-                                            <MenuItem>Via Form</MenuItem>
-                                            <MenuItem>Via CSV</MenuItem>
-                                            <MenuItem>Via Excel</MenuItem>
-                                        </MenuList>
-                                    </ClickAwayListener>
-                                </Paper>
-                            </Grow>
-                        )}
-
-                </Popper>
-
-                <Popper
-                    open={importOptionsOpen}
-                    anchorEl={this.anchorEl}
-                    transition
-                    disablePortal
-                    style={{zIndex: 99}}
-                >
-
-                    {({TransitionProps, placement }) => (
-                        <Grow
-                            {...TransitionProps}
-                            style={{
-                                transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'
-                            }}
-                        >
-                            <Paper>
-                                <ClickAwayListener onClickAway={this.closeImportOptions}>
-                                    <MenuList>
-                                        <MenuItem>Via Form</MenuItem>
-                                        <MenuItem>Via CSV</MenuItem>
-                                        <MenuItem>Via Excel</MenuItem>
-                                    </MenuList>
-                                </ClickAwayListener>
-                            </Paper>
-                        </Grow>
-                    )}
-
-                </Popper>
-
-                <Popper
-                    open={exportOptionsOpen}
-                    anchorEl={this.anchorEl}
-                    transition
-                    disablePortal
-                    style={{zIndex: 99}}
-                >
-
-                    {({TransitionProps, placement }) => (
-                        <Grow
-                            {...TransitionProps}
-                            style={{
-                                transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'
-                            }}
-                        >
-                            <Paper>
-                                <ClickAwayListener onClickAway={this.closeExportOptions}>
-                                    <MenuList>
-                                        <MenuItem>CSV</MenuItem>
-                                        <MenuItem>Excel</MenuItem>
-                                    </MenuList>
-                                </ClickAwayListener>
-                            </Paper>
-                        </Grow>
-                    )}
-
-                </Popper>
 
                 <Grid container spacing={24}>
                     
