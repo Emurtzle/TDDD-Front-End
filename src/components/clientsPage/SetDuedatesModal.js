@@ -28,6 +28,44 @@ const styles = theme => ({
       }
 })
 
+ const forms = {
+    '1040': {
+        name: "1040",
+        description: "A 1040 Form",
+        dateDue: "1-2-2019"
+    },
+    '1041': {
+        name: "1041",
+        description: "A 1041 Form",
+        dateDue: "1-3-20191-2-2019"
+    },
+    '8879': {
+        name: "8879",
+        description: "A 8879 Form",
+        dateDue: "1-4-2019"
+    },
+    '1120s': {
+        name: "1120s",
+        description: "A 1120S Form",
+        dateDue: "1-5-2019"
+    },
+    '990': {
+        name: "990",
+        description: "A 990 Form",
+        dateDue: "1-6-2019"
+    },
+    '1065': {
+        name: "1065",
+        description: "A 1065 Form",
+        dateDue: "1-7-2019"
+    },
+    'engagementLetter': {
+        name: "Engagement Letter",
+        description: "An Engagement Letter",
+        dateDue: "1-8-2019"
+    }
+ }
+
 class SetDuedatesModal extends Component {
     constructor(props) {
         super(props)
@@ -37,22 +75,221 @@ class SetDuedatesModal extends Component {
             advancedClient: false,
             defualtBusiness: false,
             advancedBusiness: false,
+            engagementLetter: false,
             '1040': false,
             '1041': false,
             '8879': false,
             '1120s': false,
             '990': false,
-            '1065': false,
-            'engagementLetter': false
+            '1065': false
         }
     }
 
-    handleChange = (ev) => {
-        this.setState({[ev.target.id]: ev.target.checked})
+    handleChange = name => event => {
+        switch(name) {
+            case 'defaultClient':
+                this.setState({
+                    defaultClient: true,
+                    advancedClient: false,
+                    defualtBusiness: false,
+                    advancedBusiness: false,
+                    engagementLetter: false,
+                    '1040': false,
+                    '1041': false,
+                    '8879': false,
+                    '1120s': false,
+                    '990': false,
+                    '1065': false
+                })
+            break
+
+            case 'advancedClient':
+                this.setState({
+                    defaultClient: false,
+                    advancedClient: true,
+                    defualtBusiness: false,
+                    advancedBusiness: false,
+                    engagementLetter: false,
+                    '1040': false,
+                    '1041': false,
+                    '8879': false,
+                    '1120s': false,
+                    '990': false,
+                    '1065': false
+                })
+            break
+
+            case 'defualtBusiness':
+                this.setState({
+                    defaultClient: false,
+                    advancedClient: false,
+                    defualtBusiness: true,
+                    advancedBusiness: false,
+                    engagementLetter: false,
+                    '1040': false,
+                    '1041': false,
+                    '8879': false,
+                    '1120s': false,
+                    '990': false,
+                    '1065': false
+                })
+            break
+
+            case 'advancedBusiness':
+                this.setState({
+                    defaultClient: false,
+                    advancedClient: false,
+                    defualtBusiness: false,
+                    advancedBusiness: true,
+                    engagementLetter: false,
+                    '1040': false,
+                    '1041': false,
+                    '8879': false,
+                    '1120s': false,
+                    '990': false,
+                    '1065': false
+                })
+            break
+
+            case 'engagementLetter':
+                this.setState({
+                    defaultClient: false,
+                    advancedClient: false,
+                    defualtBusiness: false,
+                    advancedBusiness: false,
+                    'engagementLetter': true,
+                })
+            break
+
+            case '1040':
+                this.setState({
+                    defaultClient: false,
+                    advancedClient: false,
+                    defualtBusiness: false,
+                    advancedBusiness: false,
+                    '1040': true
+                })
+            break
+
+            case '1041':
+                this.setState({
+                    defaultClient: false,
+                    advancedClient: false,
+                    defualtBusiness: false,
+                    advancedBusiness: false,
+                    '1041': true
+                })
+            break
+
+            case '8879':
+                this.setState({
+                    defaultClient: false,
+                    advancedClient: false,
+                    defualtBusiness: false,
+                    advancedBusiness: false,
+                    '8879': true
+                })
+            break
+
+            case '1120s':
+                this.setState({
+                    defaultClient: false,
+                    advancedClient: false,
+                    defualtBusiness: false,
+                    advancedBusiness: false,
+                    '1120s': true,
+                })
+            break
+
+            case '990':
+                this.setState({
+                    defaultClient: false,
+                    advancedClient: false,
+                    defualtBusiness: false,
+                    advancedBusiness: false,
+                    '990': true,
+                })
+            break
+
+            case '1065':
+                this.setState({
+                    defaultClient: false,
+                    advancedClient: false,
+                    defualtBusiness: false,
+                    advancedBusiness: false,
+                    '1065': true,
+                })
+            break
+
+            default:
+                this.setState({ [name]: event.target.checked })
+        }
+
+
+
+        this.setState({ [name]: event.target.checked })
     }
 
     checkDuedatesToSubmit = () => {
-        this.props.submitDuedates(null)
+        let toSubmit = []
+
+        if (this.state.defaultClient === true) {
+            toSubmit.push(forms['engagementLetter'])
+            toSubmit.push(forms['1040'])
+        }
+
+        if (this.state.advancedClient === true) {
+            toSubmit.push(forms['engagementLetter'])
+            toSubmit.push(forms['1040'])
+            toSubmit.push(forms['8879'])
+            toSubmit.push(forms['1120s'])
+            toSubmit.push(forms['990'])
+            toSubmit.push(forms['1065'])
+        }
+
+        if (this.state.defualtBusiness === true) {
+            toSubmit.push(forms['8879'])
+            toSubmit.push(forms['1120s'])
+        }
+        
+        if (this.state.advancedBusiness === true) {
+            toSubmit.push(forms['engagementLetter'])
+            toSubmit.push(forms['1040'])
+            toSubmit.push(forms['8879'])
+            toSubmit.push(forms['1120s'])
+            toSubmit.push(forms['990'])
+            toSubmit.push(forms['1065'])
+        }
+
+        if (this.state.engagementLetter === true) {
+            toSubmit.push(forms['engagementLetter'])
+        }
+
+        if (this.state['1040'] === true) {
+            toSubmit.push(forms['1040'])
+        }
+
+        if (this.state['1041'] === true) {
+            toSubmit.push(forms['1041'])
+        }
+
+        if (this.state['8879'] === true) {
+            toSubmit.push(forms['8879'])
+        }
+
+        if (this.state['1120s'] === true) {
+            toSubmit.push(forms['1120s'])
+        }
+
+        if (this.state['990'] === true) {
+            toSubmit.push(forms['990'])
+        }
+
+        if (this.state['1065'] === true) {
+            toSubmit.push(forms['1065'])
+        }
+
+        this.props.submitDuedates(toSubmit)
         this.props.closeSetDuedatesModal()
     }
 
@@ -65,7 +302,7 @@ class SetDuedatesModal extends Component {
         } = this.state
 
         return (
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} elevation={2}>
                 <ClickAwayListener onClickAway={closeSetDuedatesModal}>
                     <Grid container direction='column' justify='space-around'>
 
@@ -88,9 +325,10 @@ class SetDuedatesModal extends Component {
                                             <FormControlLabel
                                                 control={
                                                     <Checkbox
-                                                    checked={defaultClient}
-                                                    onChange={this.handleChange}
-                                                    value="defaultClient" />
+                                                        checked={defaultClient}
+                                                        onChange={this.handleChange('defaultClient')}
+                                                        value="defaultClient"
+                                                    />
                                                 }
                                                 label="Default Client"
                                             />
@@ -98,9 +336,10 @@ class SetDuedatesModal extends Component {
                                             <FormControlLabel
                                                 control={
                                                     <Checkbox
-                                                    checked={advancedClient}
-                                                    onChange={this.handleChange}
-                                                    value="advancedClient" />
+                                                        checked={advancedClient}
+                                                        onChange={this.handleChange('advancedClient')}
+                                                        value="advancedClient"
+                                                    />
                                                 }
                                                 label="Advanced Client"
                                             />
@@ -115,9 +354,10 @@ class SetDuedatesModal extends Component {
                                             <FormControlLabel
                                                 control={
                                                     <Checkbox
-                                                    checked={defualtBusiness}
-                                                    onChange={this.handleChange}
-                                                    value="defualtBusiness" />
+                                                        checked={defualtBusiness}
+                                                        onChange={this.handleChange('defualtBusiness')}
+                                                        value="defualtBusiness"
+                                                    />
                                                 }
                                                 label="Default Business"
                                             />
@@ -125,9 +365,10 @@ class SetDuedatesModal extends Component {
                                             <FormControlLabel
                                                 control={
                                                     <Checkbox
-                                                    checked={advancedBusiness}
-                                                    onChange={this.handleChange}
-                                                    value="advancedBusiness" />
+                                                        checked={advancedBusiness}
+                                                        onChange={this.handleChange('advancedBusiness')}
+                                                        value="advancedBusiness"
+                                                    />
                                                 }
                                                 label="Advanced Business"
                                             />
@@ -152,7 +393,7 @@ class SetDuedatesModal extends Component {
                                                 control={
                                                     <Checkbox 
                                                         checked={this.state['1040']}
-                                                        onChange={this.handleChange}
+                                                        onChange={this.handleChange('1040')}
                                                         value='1040'
                                                     />
                                                 }
@@ -163,7 +404,7 @@ class SetDuedatesModal extends Component {
                                                 control={
                                                     <Checkbox 
                                                         checked={this.state['1041']}
-                                                        onChange={this.handleChange}
+                                                        onChange={this.handleChange('1041')}
                                                         value='1041'
                                                     />
                                                 }
@@ -174,7 +415,7 @@ class SetDuedatesModal extends Component {
                                                 control={
                                                     <Checkbox 
                                                         checked={this.state['8879']}
-                                                        onChange={this.handleChange}
+                                                        onChange={this.handleChange('8879')}
                                                         value='8879'
                                                     />
                                                 }
@@ -185,7 +426,7 @@ class SetDuedatesModal extends Component {
                                                 control={
                                                     <Checkbox 
                                                         checked={this.state['engagementLetter']}
-                                                        onChange={this.handleChange}
+                                                        onChange={this.handleChange('engagementLetter')}
                                                         value='engagementLetter'
                                                     />
                                                 }
@@ -202,7 +443,7 @@ class SetDuedatesModal extends Component {
                                                 control={
                                                     <Checkbox 
                                                         checked={this.state['1120s']}
-                                                        onChange={this.handleChange}
+                                                        onChange={this.handleChange('1120s')}
                                                         value='1120s'
                                                     />
                                                 }
@@ -213,7 +454,7 @@ class SetDuedatesModal extends Component {
                                                 control={
                                                     <Checkbox 
                                                         checked={this.state['990']}
-                                                        onChange={this.handleChange}
+                                                        onChange={this.handleChange('990')}
                                                         value='990'
                                                     />
                                                 }
@@ -224,7 +465,7 @@ class SetDuedatesModal extends Component {
                                                 control={
                                                     <Checkbox 
                                                         checked={this.state['1065']}
-                                                        onChange={this.handleChange}
+                                                        onChange={this.handleChange('1065')}
                                                         value='1065'
                                                     />
                                                 }

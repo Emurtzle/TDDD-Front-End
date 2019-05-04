@@ -21,7 +21,7 @@ import {
     SelectionState,
     SearchState, IntegratedFiltering,
     SortingState, IntegratedSorting,
-    PagingState, IntegratedPaging
+    PagingState, IntegratedPaging, IntegratedSelection
 } from '@devexpress/dx-react-grid'
 
 import { ToolbarControls } from './Toolbar-Controls'
@@ -38,6 +38,7 @@ class ClientsTable extends Component {
 
         this.state = {
             columns: [
+                {name: 'id', title: 'Client ID'},
                 {name: 'firstName', title: 'First Name'},
                 {name: 'lastName', title: 'Last Name'},
                 {name: 'phone', title: 'Phone #'},
@@ -55,6 +56,7 @@ class ClientsTable extends Component {
 
     changeSelection = selection => {
         this.setState({ selection })
+
         this.props.setSelection(selection)
 
         if (selection.length === 0) {

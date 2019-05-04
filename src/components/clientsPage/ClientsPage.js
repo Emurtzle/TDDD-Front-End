@@ -194,8 +194,43 @@ class ClientsPage extends Component {
         })
      }
 
-     submitDuedates = (checked) => {
+     submitDuedates = (forms) => {
+         const { selection } = this.state
+         const { clientList } = this.props
+         var temp = []
 
+        selection.map(item => {
+            temp.push(clientList.find((client) => client.id === item + 1))
+        })
+
+        var toPost = []
+
+        temp.map(client => {
+            forms.map(form => {
+                toPost.push({
+                    client_id: client.id,
+                    name: form.name,
+                    description: form.description,
+                    dateDue: form.dateDue,
+                    progress: "0",
+                    status: "incomplete"
+                })
+            })
+        })
+
+        fetch('http://localhost:3000//api/v1/duedates/createMany', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'appllication/json',
+                Authorization: `Bearer ${localStorage.getItem('Token')}`
+            },
+            body: JSON.stringify({data: toPost})
+        })
+        .then(resp => resp.json())
+        .then(json => {
+            console.log('Response: ', json)
+        })
      }
 
 
@@ -341,7 +376,6 @@ class ClientsPage extends Component {
                             }}
                         >
                             <SetDuedatesModal
-                                selection={selection}
                                 closeSetDuedatesModal={this.closeSetDuedatesModal}
                                 submitDuedates={this.submitDuedates}
                             />
