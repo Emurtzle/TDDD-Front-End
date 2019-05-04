@@ -5,7 +5,9 @@ import ClientsPageTable from './ClientsPageTable'
 import ClientsPageInfo from './ClientsPageInfo'
 import ClientsPageControls from './ClientsPageControls'
 import IndivClientPage from './IndivClientPage'
+
 import AddClientModal from './addClientViaFormModal'
+import SetDuedatesModal from './SetDuedatesModal'
 
 import moment from 'moment'
 import uuid from 'uuid'
@@ -13,7 +15,7 @@ import uuid from 'uuid'
 import { Transition } from 'react-transition-group'
 
 
-import { withStyles, FormControl } from '@material-ui/core'
+import { withStyles, FormControl, FormGroup } from '@material-ui/core'
 
 import Modal from '@material-ui/core/Modal'
 import Avatar from '@material-ui/core/Avatar'
@@ -64,6 +66,7 @@ class ClientsPage extends Component {
            controlsOpen: false,
            indivClientPageOpen: false,
            addClientModalOpen: false,
+           setDuedatesModalOpen: false,
            addClientOptionsOpen: false,
            importOptionsOpen: false,
            exportOptionsOpen: false
@@ -122,6 +125,16 @@ class ClientsPage extends Component {
         this.setState({addClientModalOpen: false})
     }
 
+    openSetDuedatesModal = (ev) => {
+        this.anchorEl = ev.currentTarget
+        this.setState({setDuedatesModalOpen: true})
+    }
+
+    closeSetDuedatesModal = () => {
+        this.anchorEl = null
+        this.setState({setDuedatesModalOpen: false})
+    }
+
     openAddClientOptions = (ev) => {
         this.anchorEl = ev.currentTarget
         this.setState({addClientOptionsOpen: true})
@@ -153,7 +166,36 @@ class ClientsPage extends Component {
      }
 
      submitNewClient = (client) => {
-        console.log('Client: ', client)
+        console.log('Client to post: ', client)
+
+        fetch('http://localhost:3000/api/v1/clients', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('Token')}`
+            },
+            body: JSON.stringify({
+                firstName: client.firstName,
+                lastName: client.lastName,
+                email: client.email,
+                phone: client.phone,
+                fax: client.fax,
+                dob: client.dob,
+                address: client.address,
+                occ: client.occ,
+                ssn: client.ssn,
+                status: 'incomplete'
+            })
+        })
+        .then(resp => resp.json())
+        .then(json => {
+            console.log('Posted Client: ', json)
+        })
+     }
+
+     submitDuedates = (checked) => {
+
      }
 
 
@@ -170,7 +212,7 @@ class ClientsPage extends Component {
             currentClient, currentClientDuedates, selection,
             clientInfoOpen, controlsOpen, indivClientPageOpen,
             importOptionsOpen, exportOptionsOpen, addClientOptionsOpen,
-            addClientModalOpen
+            addClientModalOpen, setDuedatesModalOpen
         } = this.state
 
         const sidebarOpen = (clientInfoOpen || controlsOpen)
@@ -283,6 +325,35 @@ class ClientsPage extends Component {
 
                 </Popper>
 
+                <Popper
+                    open={setDuedatesModalOpen}
+                    anchorEl={this.anchorEl}
+                    transition
+                    disablePortal
+                    style={{zIndex: 99}}
+                >
+
+                    {({TransitionProps, placement }) => (
+                        <Grow
+                            {...TransitionProps}
+                            style={{
+                                transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'
+                            }}
+                        >
+                            <SetDuedatesModal
+                                selection={selection}
+                                closeSetDuedatesModal={this.closeSetDuedatesModal}
+                                submitDuedates={this.submitDuedates}
+                            />
+                        </Grow>
+                    )}
+
+                </Popper>
+
+                
+
+                
+
                 <AddClientModal 
                     addClientModalOpen={addClientModalOpen}
                     closeAddClientModal={this.closeAddClientModal}
@@ -330,6 +401,7 @@ class ClientsPage extends Component {
                                         >
                                             <ClientsPageControls
                                                 selection={selection}
+                                                openSetDuedatesModal={this.openSetDuedatesModal}
                                             />
                                         </Slide>
                                     </Grid>
