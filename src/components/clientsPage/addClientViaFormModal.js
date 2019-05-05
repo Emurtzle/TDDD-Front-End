@@ -21,6 +21,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
+    paper: {
+        padding: 10
+    },
     FormControl: {
         margin: theme.spacing.unit
     }
@@ -94,13 +97,13 @@ class AddClientModal extends Component {
         return (
             <Dialog
                     open={addClientModalOpen}
-                    onClose={this.closeAddClientModal}
+                    onClose={closeAddClientModal}
                     disableBackdropClick
                 >
                     <DialogTitle>Add a Client</DialogTitle>
                     
                     <DialogContent>
-                        <Paper>
+                        <Paper className={classes.paper}>
                             <Grid container direction='column'>
                                 <Grid item>
                                     <FormGroup row>

@@ -5,6 +5,7 @@ import ClientsPageTable from './ClientsPageTable'
 import ClientsPageInfo from './ClientsPageInfo'
 import ClientsPageControls from './ClientsPageControls'
 import IndivClientPage from './IndivClientPage'
+import addClientCsvModal from './AddClientCsvModal'
 
 import AddClientModal from './addClientViaFormModal'
 import SetDuedatesModal from './SetDuedatesModal'
@@ -32,6 +33,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import MenuList from '@material-ui/core/MenuList'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Input from '@material-ui/core/Input'
+import AddClientCsvModal from './AddClientCsvModal';
 
 const styles = theme => ({
     paper: {
@@ -51,6 +53,9 @@ const styles = theme => ({
     },
     formControl: {
         margin: theme.spacing.unit
+    },
+    input: {
+        display: 'none'
     }
 })
 
@@ -67,6 +72,7 @@ class ClientsPage extends Component {
            indivClientPageOpen: false,
            addClientModalOpen: false,
            setDuedatesModalOpen: false,
+           addClientCsvModalOpen: false,
            addClientOptionsOpen: false,
            importOptionsOpen: false,
            exportOptionsOpen: false
@@ -117,6 +123,9 @@ class ClientsPage extends Component {
         this.setState({controlsOpen: false})
    }
 
+
+
+
     openAddClientModal = () => {
         this.setState({addClientModalOpen: true})
     }
@@ -134,6 +143,17 @@ class ClientsPage extends Component {
         this.anchorEl = null
         this.setState({setDuedatesModalOpen: false})
     }
+
+    openAddClientCsvModal = () => {
+        this.setState({addClientCsvModalOpen: true})
+    }
+
+    closeAddClientCsvModal = () => {
+        this.setState({addClientCsvModalOpen: false})
+    }
+
+
+
 
     openAddClientOptions = (ev) => {
         this.anchorEl = ev.currentTarget
@@ -233,7 +253,9 @@ class ClientsPage extends Component {
         })
      }
 
+     submitCsv = () => {
 
+     }
 
 
 
@@ -247,7 +269,7 @@ class ClientsPage extends Component {
             currentClient, currentClientDuedates, selection,
             clientInfoOpen, controlsOpen, indivClientPageOpen,
             importOptionsOpen, exportOptionsOpen, addClientOptionsOpen,
-            addClientModalOpen, setDuedatesModalOpen
+            addClientModalOpen, setDuedatesModalOpen, addClientCsvModalOpen
         } = this.state
 
         const sidebarOpen = (clientInfoOpen || controlsOpen)
@@ -294,7 +316,13 @@ class ClientsPage extends Component {
                                                 >
                                                     Via Form
                                                 </MenuItem>
-                                            <MenuItem>Via CSV</MenuItem>
+                                            <MenuItem onClick={() => {
+                                                this.closeAddClientOptions()
+                                                this.openAddClientCsvModal()
+                                            }}
+                                            >
+                                                Via CSV
+                                            </MenuItem>
                                             <MenuItem>Via Excel</MenuItem>
                                         </MenuList>
                                     </ClickAwayListener>
@@ -393,6 +421,14 @@ class ClientsPage extends Component {
                     closeAddClientModal={this.closeAddClientModal}
                     submitNewClient={this.submitNewClient}
                 />
+
+                <AddClientCsvModal
+                    addClientCsvModalOpen={addClientCsvModalOpen}
+                    closeAddClientCsvModal={this.closeAddClientCsvModal}
+                    submitCsv={this.submitCsv}
+                />
+
+
 
                 <Grid container spacing={24}>
                     

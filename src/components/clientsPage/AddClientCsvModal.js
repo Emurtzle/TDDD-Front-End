@@ -1,16 +1,22 @@
 import React, { Component }from 'react'
 import PropTypes from 'prop-types'
 
+import AddClientCsvTable from './AddClientCsvTable'
+
 import moment from 'moment'
 
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/core'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
+
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 import FormLabel from '@material-ui/core/FormLabel'
 import FormControl from '@material-ui/core/FormControl'
@@ -19,16 +25,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import Checkbox from '@material-ui/core/Checkbox'
 
-const styles = theme => ({
-    formControl: {
-        margin: theme.spacing.unit * 3,
-      },
-      paper: {
-          padding: 10
-      }
-})
+const Papa = require("papaparse")
 
- const forms = {
+const forms = {
     '1040': {
         name: "1040",
         description: "A 1040 Form",
@@ -66,11 +65,29 @@ const styles = theme => ({
     }
  }
 
-class SetDuedatesModal extends Component {
+const styles = theme => ({
+    paper: {
+        padding: 10
+    },
+    input: {
+        display: 'none'
+    },
+    button: {
+        margin: theme.spacing.unit,
+    },
+    FormControl: {
+        margin: theme.spacing.unit * 3
+    }
+})
+
+class AddClientCsvModal extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
+            file: null,
+            parsedData: null,
+            tableComponentOpen: false,
             defaultClient: false,
             advancedClient: false,
             defualtBusiness: false,
@@ -83,6 +100,43 @@ class SetDuedatesModal extends Component {
             '990': false,
             '1065': false
         }
+    }
+
+    handleFileChange = (ev) => {
+        const file = ev.target.files[0]
+        this.setState({file: file}, () => this.parseCsv())
+    }
+
+    parseCsv = () => {
+        console.log('starting')
+
+        const { file } = this.state
+        let output = null
+
+        Papa.parse(file, {
+            header: true,
+            download: true,
+            skipEmptyLines: true,
+            // Here this is also available. So we can call our custom class method
+            complete: this.updateData
+          });
+    }
+
+    updateData = (data) => {
+        console.log(data)
+        this.setState({parsedData: data})
+    }
+
+    loadTable = () => {
+
+    }
+
+    openTableComponent = () => {
+        this.setState({tableComponentOpen: true})
+    }
+
+    closeTableComponent = () => {
+        this.setState({tableComponentOpen: false})
     }
 
     handleChange = name => event => {
@@ -289,96 +343,131 @@ class SetDuedatesModal extends Component {
         this.props.closeSetDuedatesModal()
     }
 
+
     render() {
 
-        const { classes, closeSetDuedatesModal } = this.props
-        const {
+        const { classes, addClientCsvModalOpen, closeAddClientCsvModal } = this.props
+        const { 
+            parsedData, file,
             defaultClient, advancedClient,
             defualtBusiness, advancedBusiness
         } = this.state
 
+        // debugger
+
         return (
-            <Paper className={classes.paper} elevation={2}>
-                <ClickAwayListener onClickAway={closeSetDuedatesModal}>
-                    <Grid container direction='column' justify='space-around'>
+            <Dialog
+                open={addClientCsvModalOpen}
+                onClose={closeAddClientCsvModal}
+                disableBackdropClick
+            >
+                <DialogTitle>
+                    Upload Your CSV
+                    <input
+                        accept='csv'
+                        className={classes.input}
+                        id='csv-input'
+                        type='file'
+                        onChange={this.handleFileChange}
+                    />
 
-                        <Grid item xs={12}>
-                            <Typography variant='title' align='center' gutterBottom>
-                                Set Due Dates
-                            </Typography>
-                        </Grid>
+                    <label htmlFor='csv-input'>
+                        <Button 
+                            component='span'
+                            className={classes.button}
+                        >
+                            Upload
+                        </Button>
+                    </label>
+                </DialogTitle>
 
-                        <Grid item>
-                            <Divider variant='middle' />
-                        </Grid>
+                <DialogContent>
+                    <Paper className={classes.paper}>
+                        <Grid container spacing={8} direction="column" justify='space-around'>
 
-                        <Grid item xs={12}>
-                            <Grid container direct='row' justify='space-around'>
-                                <Grid item xs={6}>
-                                    <FormControl component="fieldset" className={classes.formControl}>
-                                        <FormLabel component="legend">Client</FormLabel>
-                                        <FormGroup>
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={defaultClient}
-                                                        onChange={this.handleChange('defaultClient')}
-                                                        value="defaultClient"
-                                                    />
-                                                }
-                                                label="Default Client"
-                                            />
+                            <Grid item>
+                                <Typography variant='subtitle1' >
+                                    File Name: {file ? file.name : "CSV.csv"}
+                                </Typography>
+                            </Grid>
 
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={advancedClient}
-                                                        onChange={this.handleChange('advancedClient')}
-                                                        value="advancedClient"
-                                                    />
-                                                }
-                                                label="Advanced Client"
-                                            />
-                                        </FormGroup>
-                                    </FormControl>
-                                </Grid>
+                            <Grid item>
+                                <Typography variant='subtitle1' gutterBottom >
+                                    Number of Clients: {parsedData ? parsedData.data.length : 0}
+                                </Typography>
+                            </Grid>
 
-                                <Grid item xs={6}>
-                                    <FormControl component="fieldset" className={classes.formControl}>
-                                        <FormLabel component="legend">Business</FormLabel>
-                                        <FormGroup>
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={defualtBusiness}
-                                                        onChange={this.handleChange('defualtBusiness')}
-                                                        value="defualtBusiness"
-                                                    />
-                                                }
-                                                label="Default Business"
-                                            />
+                            <Grid item>
+                                <Divider variant='middle' />
+                            </Grid>
 
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={advancedBusiness}
-                                                        onChange={this.handleChange('advancedBusiness')}
-                                                        value="advancedBusiness"
-                                                    />
-                                                }
-                                                label="Advanced Business"
-                                            />
-                                        </FormGroup>
-                                    </FormControl>
+                            <Grid item>
+                                <Grid container direct='row' justify='space-around'>
+                                    <Grid item xs={6}>
+                                        <FormControl component="fieldset" className={classes.formControl}>
+                                            <FormLabel component="legend">Client</FormLabel>
+                                            <FormGroup>
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={defaultClient}
+                                                            onChange={this.handleChange('defaultClient')}
+                                                            value="defaultClient"
+                                                        />
+                                                    }
+                                                    label="Default Client"
+                                                />
+
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={advancedClient}
+                                                            onChange={this.handleChange('advancedClient')}
+                                                            value="advancedClient"
+                                                        />
+                                                    }
+                                                    label="Advanced Client"
+                                                />
+                                            </FormGroup>
+                                        </FormControl>
+                                    </Grid>
+
+                                    <Grid item xs={6}>
+                                        <FormControl component="fieldset" className={classes.formControl}>
+                                            <FormLabel component="legend">Business</FormLabel>
+                                            <FormGroup>
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={defualtBusiness}
+                                                            onChange={this.handleChange('defualtBusiness')}
+                                                            value="defualtBusiness"
+                                                        />
+                                                    }
+                                                    label="Default Business"
+                                                />
+
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={advancedBusiness}
+                                                            onChange={this.handleChange('advancedBusiness')}
+                                                            value="advancedBusiness"
+                                                        />
+                                                    }
+                                                    label="Advanced Business"
+                                                />
+                                            </FormGroup>
+                                        </FormControl>
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
 
-                        <Grid item>
+                            <Grid item>
                             <Divider variant='middle' />
                         </Grid>
 
-                        <Grid item xs={12}>
+                        <Grid item>
                             <Grid container direct='row' justify='space-around'>
                             
                                 <Grid item xs={6}>
@@ -473,30 +562,28 @@ class SetDuedatesModal extends Component {
                             </Grid>
                         </Grid>
 
-                        <Grid item>
-                            <Divider variant='middle' />
-                        </Grid>
 
-                        <Grid item xs={12}>
-                            <Grid container direction='row' justify='space-around'>
-                                <Grid item>
-                                    <Button onClick={closeSetDuedatesModal}>Cancel</Button>
-                                </Grid>
-
-                                <Grid item>
-                                    <Button onClick={this.checkDuedatesToSubmit}>Submit</Button>
-                                </Grid>
-                            </Grid>
                         </Grid>
-                    </Grid>
-                </ClickAwayListener>
-            </Paper>
+                    </Paper>
+
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={closeAddClientCsvModal} color='primary'>
+                        Cancel
+                    </Button>
+
+                    <Button onClick={this.checkDuedatesToSubmit} color='primary'>
+                        Submit
+                    </Button>
+                </DialogActions>
+            </Dialog>
         )
     }
 }
 
-SetDuedatesModal.propTypes = {
+AddClientCsvModal.propTypes = {
 
 }
 
-export default withStyles(styles)(SetDuedatesModal)
+export default withStyles(styles)(AddClientCsvModal)
