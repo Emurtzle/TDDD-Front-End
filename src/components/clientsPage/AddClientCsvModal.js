@@ -123,7 +123,6 @@ class AddClientCsvModal extends Component {
     }
 
     updateData = (data) => {
-        console.log(data)
         this.setState({parsedData: data})
     }
 
@@ -339,8 +338,8 @@ class AddClientCsvModal extends Component {
             toSubmit.push(forms['1065'])
         }
 
-        this.props.submitDuedates(toSubmit)
-        this.props.closeSetDuedatesModal()
+        this.props.submitCsv(this.state.parsedData.data, toSubmit)
+        this.props.closeAddClientCsvModal()
     }
 
 

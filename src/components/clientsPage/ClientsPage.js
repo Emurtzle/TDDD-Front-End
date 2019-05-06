@@ -253,8 +253,23 @@ class ClientsPage extends Component {
         })
      }
 
-     submitCsv = () => {
+     submitCsv = (data, forms) => {
+        console.log("Data from CSV: ", data)
+        console.log("Forms to apply: ", forms)
 
+        fetch('http://localhost:3000/api/v1/clients/csv', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('Token')}`
+            },
+            body: JSON.stringify({data: data, forms: forms})
+        })
+        .then(resp => resp.json())
+        .then(json => {
+            console.log('Json: ', json)
+        })
      }
 
 
