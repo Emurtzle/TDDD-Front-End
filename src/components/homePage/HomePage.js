@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
+import Divider from '@material-ui/core/Divider'
 
 import AgendaList from './AgendaList'
 
@@ -31,27 +32,6 @@ const eventList = [
         title: "Client 3",
         start: new Date(moment().add(2, "days")),
         end: new Date(moment().add(2, "days"))
-    }
-]
-
-const agendaList = [
-    {
-        title: "W2",
-        client: "John Smith",
-        date: new Date(moment("2019-04-28")),
-        status: true
-    },
-    {
-        title: "W2",
-        client: "Granny Smith",
-        date: new Date(moment("2019-04-29")),
-        status: false
-    },
-    {
-        title: "1044",
-        client: "Jane Doe",
-        date: new Date(moment("2019-04-30")),
-        status: false
     }
 ]
 
@@ -78,7 +58,7 @@ class CalendarPage extends Component {
         }
     }
     render () {
-         const { classes } = this.props
+         const { classes, clientList, duedateList } = this.props
 
         return (
             <Grid container spacing={24}>
@@ -107,7 +87,12 @@ class CalendarPage extends Component {
                             Agenda
                         </Typography>
 
-                        <AgendaList agenda={agendaList}/>
+                        <Divider variant="middle" />
+
+                        <AgendaList
+                            clientList={clientList}
+                            duedateList={duedateList}
+                        />
 
                     </Paper>
                     

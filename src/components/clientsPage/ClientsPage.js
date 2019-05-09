@@ -250,6 +250,7 @@ class ClientsPage extends Component {
         .then(resp => resp.json())
         .then(json => {
             console.log('Response: ', json)
+            this.props.refreshData()
         })
      }
 
@@ -269,6 +270,7 @@ class ClientsPage extends Component {
         .then(resp => resp.json())
         .then(json => {
             console.log('Json: ', json)
+            this.props.refreshData()
         })
      }
 
@@ -344,34 +346,6 @@ class ClientsPage extends Component {
                                 </Paper>
                             </Grow>
                         )}
-
-                </Popper>
-
-                <Popper
-                    open={importOptionsOpen}
-                    anchorEl={this.anchorEl}
-                    transition
-                    disablePortal
-                    style={{zIndex: 99}}
-                >
-
-                    {({TransitionProps, placement }) => (
-                        <Grow
-                            {...TransitionProps}
-                            style={{
-                                transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'
-                            }}
-                        >
-                            <Paper>
-                                <ClickAwayListener onClickAway={this.closeImportOptions}>
-                                    <MenuList>
-                                        <MenuItem>Via CSV</MenuItem>
-                                        <MenuItem>Via Excel</MenuItem>
-                                    </MenuList>
-                                </ClickAwayListener>
-                            </Paper>
-                        </Grow>
-                    )}
 
                 </Popper>
 

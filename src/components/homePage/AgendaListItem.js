@@ -26,7 +26,9 @@ class AgendaListItem extends Component {
         }
     }
     render() {
-        const {title, client, date, status} = this.props.item
+        const {name, client_id, dateDue, status} = this.props.item
+        const { client } = this.props
+
         return (
             <ListItem>
                 <ListItemAvatar>
@@ -36,7 +38,7 @@ class AgendaListItem extends Component {
                 </ListItemAvatar>
 
                 <ListItemText
-                    primary={`${title} - ${client} - ${date.toDateString()}`}
+                    primary={`${name} - ${client.lastName} - ${dateDue}`}
                 />
 
                 <ListItemSecondaryAction>

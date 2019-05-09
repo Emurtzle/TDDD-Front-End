@@ -80,17 +80,18 @@ class Navbar extends Component {
                             <Fragment>
                                 <Button size="large" color="inherit" component={homeLink}>Home</Button>
                                 <Button size="large" color="inherit" component={clientsLink}>Clients</Button>
-                                <Button size="large" color="inherit" component={duedateLink}>Due Dates</Button>
-                                <Button size="large" color="inherit" component={calendarsLink}>Calendars</Button>
-                                <Button size="large" color="inherit">Teams</Button>
-                                <Button size="large" color="inherit">Jobs</Button>
-                                <Button size="large" color="inherit">Tasks</Button>
+                                <Button size="large" color="inherit" component={duedateLink} disabled>Due Dates</Button>
+                                <Button size="large" color="inherit" component={calendarsLink} disabled>Calendars</Button>
+                                <Button size="large" color="inherit" disabled>Teams</Button>
+                                <Button size="large" color="inherit" disabled>Jobs</Button>
+                                <Button size="large" color="inherit" disabled>Tasks</Button>
                             
                                 <IconButton
                                     className={classes.menuButton}
                                     color="inherit"
                                     aria-label="Menu"
                                     onClick={this.openMenu}
+                                    disabled
                                 >
                                     <AccountIcon fontSize="large"/>
                                 </IconButton>

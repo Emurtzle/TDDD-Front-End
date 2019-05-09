@@ -126,10 +126,6 @@ class AddClientCsvModal extends Component {
         this.setState({parsedData: data})
     }
 
-    loadTable = () => {
-
-    }
-
     openTableComponent = () => {
         this.setState({tableComponentOpen: true})
     }

@@ -25,7 +25,7 @@ export class ToolbarControls extends React.PureComponent {
     }
 
     render() {
-        const { openImportOptions, openExportOptions, openAddClientOptions } = this.props
+        const { openExportOptions, openAddClientOptions } = this.props
         
 
         return (
@@ -42,15 +42,7 @@ export class ToolbarControls extends React.PureComponent {
                             <Button
                                 onClick={openAddClientOptions}
                             >
-                                Add Client
-                            </Button>
-                        </Grid>
-                        
-                        <Grid item>
-                            <Button
-                                onClick={openImportOptions}
-                            >
-                                Import Clients
+                                Add Client(s)
                             </Button>
                         </Grid>
 

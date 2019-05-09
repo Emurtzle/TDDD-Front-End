@@ -64,6 +64,11 @@ class App extends Component {
     }
   }
 
+  refreshData = () => {
+    this.fetchClientList()
+    this.fetchDueDates()
+  }
+
   fetchClientList = () => {
     fetch ('http://localhost:3000/api/v1/clients', {
       method: 'GET',
@@ -123,9 +128,39 @@ class App extends Component {
             <Route exact path="/login" render={ () => <LoginPage user={user} setLogIn={this.setLogIn} /> } />
           )}
 
+          {/* {loggedIn && (
+            <Route
+              exact
+              path="/login"
+              render={ () => ( <HomePage
+                user={{user}}
+                clientList={clientList}
+                duedateList={duedateList}
+                refreshData={this.refreshData}
+              />)}
+            />
+          )} */}
+            
 
-          {PrivateRoute(loggedIn, "/", () => <HomePage user={{user}} />)}
-          {PrivateRoute(loggedIn, "/clients", () => <ClientsPage user={{user}} clientList={clientList} duedateList={duedateList} />)}
+
+          {PrivateRoute(
+            loggedIn,
+            "/", () => <HomePage
+              user={{user}}
+              clientList={clientList}
+              duedateList={duedateList}
+              refreshData={this.refreshData}
+              />
+            )}
+          {PrivateRoute(
+            loggedIn, 
+            "/clients", () => <ClientsPage
+              user={{user}}
+              clientList={clientList}
+              duedateList={duedateList}
+              refreshData={this.refreshData}
+            />
+          )}
           {PrivateRoute(loggedIn, "/duedates", () => <DueDatesPage user={{user}} />)}
           {PrivateRoute(loggedIn, "/calendars", () => <CalendarsPage user={{user}} />)}
           

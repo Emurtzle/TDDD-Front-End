@@ -27,31 +27,56 @@ class AgendaList extends Component{
         this.state = {
             formType: "",
             client: "",
-            critBox: false
+            critBox: false,
+            sortedList: []
         }
     }
 
+    componentDidMount() {
+        this.loadAgendaItems()
+    }
+    
+    loadAgendaItems = () => {
+        console.log("Made it!")
+
+        console.log("duedateList: ", this.props.duedateList)
+        var temparr = this.props.duedateList
+        temparr.sort((a,b) => (a.dateDue < b.dateDue))
+        this.setState({sortedList: temparr})
+        
+    }
+
+    renderAgendaItems = () => {
+        var temparr = this.state.sortedList.slice(0, 10)
+        console.log('temparr: ', temparr)
+
+        return temparr.map((item, index) => {
+            var client = this.findClient(item.client_id)
+            return(
+                <AgendaListItem item={item} client={client} key={index} />
+            )
+        })
+    }
+
+    findClient = (id) => {
+        return this.props.clientList.find(item => item.id === id)
+    }
+
+
     handleCheckChange = (ev) => {
         this.setState({ [ev.target.value]: !this.state[ev.target.value] })
-    }
+    } 
 
     handleChange = (ev) => {
         this.setState({ [ev.target.name]: ev.target.value })
     }
-
-    loadAgendaItems = () => {
-        return this.props.agenda.map((item, index) => (
-            <AgendaListItem key={index} item={item} />
-        ))
-    }
-    
 
     render() {
         const { classes } = this.props
 
         return(
             <Fragment>
-                <FormGroup row>
+                {/* <FormGroup row>
                     <FormControl>
                         <InputLabel>Form Type</InputLabel>
                         <Select 
@@ -96,10 +121,10 @@ class AgendaList extends Component{
                         label="Critical"
                     />
 
-                </FormGroup>
+                </FormGroup> */}
 
                 <List>
-                    {this.loadAgendaItems()}
+                    {this.renderAgendaItems()}
                 </List>
             </Fragment>
         )

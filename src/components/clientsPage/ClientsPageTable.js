@@ -121,7 +121,7 @@ class ClientsTable extends Component {
 
                     <PagingState 
                         defaultCurrentPage={0}
-                        defaultPageSize={10}
+                        defaultPageSize={25}
                     />
                     <IntegratedPaging />
 
