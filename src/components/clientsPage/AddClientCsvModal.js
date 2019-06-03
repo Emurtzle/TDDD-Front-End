@@ -374,6 +374,16 @@ class AddClientCsvModal extends Component {
                             Upload
                         </Button>
                     </label>
+
+                    <a
+                        download
+                        href="public/exampleCsv.csv"
+                    >
+                        <Typography variant="subtitle2">
+                            Example CSV
+                        </Typography>
+                    </a>
+
                 </DialogTitle>
 
                 <DialogContent>
