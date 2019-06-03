@@ -377,7 +377,7 @@ class AddClientCsvModal extends Component {
 
                     <a
                         download
-                        href="public/exampleCsv.csv"
+                        href="%PUBLIC_URL%/exampleCsv.csv"
                     >
                         <Typography variant="subtitle2">
                             Example CSV
