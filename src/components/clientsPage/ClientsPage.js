@@ -188,7 +188,7 @@ class ClientsPage extends Component {
      submitNewClient = (client) => {
         console.log('Client to post: ', client)
 
-        fetch('http://localhost:3000/api/v1/clients', {
+        fetch('https://tax-due-date-database-backend2.herokuapp.com/clients', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -238,7 +238,7 @@ class ClientsPage extends Component {
             })
         })
 
-        fetch('http://localhost:3000//api/v1/duedates/createMany', {
+        fetch('https://tax-due-date-database-backend2.herokuapp.com/duedates/createMany', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -258,7 +258,7 @@ class ClientsPage extends Component {
         console.log("Data from CSV: ", data)
         console.log("Forms to apply: ", forms)
 
-        fetch('http://localhost:3000/api/v1/clients/csv', {
+        fetch('https://tax-due-date-database-backend2.herokuapp.com/clients/csv', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -18,7 +18,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
-const url = "http://localhost:3000/api/v1/login"
+const url = "https://tax-due-date-database-backend2.herokuapp.com"
 
 const styles = theme => ({
     main: {
@@ -70,7 +70,7 @@ class LoginPage extends Component {
     loginRequest = (ev) => {
         ev.preventDefault()
 
-        fetch("http://localhost:3000/api/v1/login", {
+        fetch("https://tax-due-date-database-backend2.herokuapp.com/login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -154,6 +154,9 @@ class LoginPage extends Component {
                         </Button>
 
                     </form>
+                    <Typography >
+                        User: admin, Pass: admin
+                    </Typography>
                 </Paper>
             </main>
         )

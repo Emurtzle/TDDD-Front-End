@@ -70,7 +70,7 @@ class App extends Component {
   }
 
   fetchClientList = () => {
-    fetch ('http://localhost:3000/api/v1/clients', {
+    fetch ('https://tax-due-date-database-backend2.herokuapp.com/clients', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('Token')}`
@@ -83,7 +83,7 @@ class App extends Component {
   }
 
   fetchDueDates = () => {
-    fetch('http://localhost:3000/api/v1/duedates', {
+    fetch('https://tax-due-date-database-backend2.herokuapp.com/duedates', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('Token')}`
