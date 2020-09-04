@@ -11,7 +11,7 @@
     "csv": "^5.1.1",
     "jss-preset-default": "^4.5.0",
     "moment": "^2.24.0",
-    "papaparse": "^4.6.3",
+    "papaparse": "^5.2.0",
     "react": "^16.8.6",
     "react-big-calendar": "^0.20.4",
     "react-dnd": "^7.4.5",
