@@ -10,7 +10,7 @@
     "@material-ui/icons": "^3.0.2",
     "csv": "^5.1.1",
     "jss-preset-default": "^4.5.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "papaparse": "^4.6.3",
     "react": "^16.8.6",
     "react-big-calendar": "^0.20.4",
